@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>{% if dashboard %}Edit{% else %}Add{% endif %} Dashboard for Dataset {{ package_id }}</h1>
+<form method="post">
+  <label>Embeded URL:</label>
+  <input type="text" name="embeded_url" value="{{ dashboard.embeded_url if dashboard else '' }}">
+  <br>
+  <label>Report URL:</label>
+  <input type="text" name="report_url" value="{{ dashboard.report_url if dashboard else '' }}">
+  <br>
+  <button type="submit">Save</button>
+</form>
+{% endblock %}

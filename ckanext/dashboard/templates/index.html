@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Dashboard Configurations</h1>
+<a href="{{ url_for('dashboard_bp.edit', package_id='NEW') }}">Add new dashboard</a>
+<ul>
+  {% for d in dashboards %}
+    <li>
+      Dataset: {{ d.package_id }} -
+      <a href="{{ url_for('dashboard_bp.edit', package_id=d.package_id) }}">Edit</a>
+      <form action="{{ url_for('dashboard_bp.delete', package_id=d.package_id) }}" method="post" style="display:inline;">
+        <button type="submit">Delete</button>
+      </form>
+    </li>
+  {% endfor %}
+</ul>
+{% endblock %}
