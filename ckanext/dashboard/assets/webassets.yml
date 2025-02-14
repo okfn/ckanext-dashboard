@@ -1,0 +1,14 @@
+# dashboard-js:
+#   filter: rjsmin
+#   output: ckanext-dashboard/%(version)s-dashboard.js
+#   contents:
+#     - js/dashboard.js
+#   extra:
+#     preload:
+#       - base/main
+
+# dashboard-css:
+#   filter: cssrewrite
+#   output: ckanext-dashboard/%(version)s-dashboard.css
+#   contents:
+#     - css/dashboard.css
