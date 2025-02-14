@@ -1,0 +1,14 @@
+{% extends "package/read.html" %}
+
+{% block package_description %}
+  {{ super() }}
+  
+  {# Llamamos al helper para obtener la configuración del dashboard #}
+  {% set dashboard = h.get_dataset_dashboard(package['id']) %}
+  
+  {% if dashboard and dashboard.embeded_url %}
+    <h3>Dashboard</h3>
+    {# Incluimos el snippet de embebido #}
+    {% include "dashboard/snippet.html" %}
+  {% endif %}
+{% endblock %}

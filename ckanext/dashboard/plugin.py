@@ -1,4 +1,5 @@
 import ckan.plugins as p
+from ckan.plugins.toolkit import model
 from .blueprints.dashboard import dashboard_bp
 from .models import DatasetDashboard
 from .logic import dashboard
@@ -33,5 +34,5 @@ class DashboardPlugin(p.SingletonPlugin):
         return {'get_dataset_dashboard': self.get_dataset_dashboard}
 
     def get_dataset_dashboard(self, package_id):
-        session = p.toolkit.model.Session
+        session = model.Session
         return session.query(DatasetDashboard).filter_by(package_id=package_id).first()

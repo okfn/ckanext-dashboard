@@ -1,0 +1,15 @@
+<!-- Se carga la API de embebido de Tableau -->
+<script type="module" src="https://public.tableau.com/javascripts/api/tableau.embedding.3.latest.min.js"></script>
+
+<!-- Se inserta el componente web de Tableau -->
+<tableau-viz id="tableauViz"
+  src="{{ dashboard.embeded_url }}"
+  toolbar="bottom"
+  hide-tabs>
+</tableau-viz>
+
+{% if dashboard.report_url %}
+  <div style="text-align:right; margin-top:10px;">
+    <a href="{{ dashboard.report_url }}" target="_blank">Ver el reporte en Tableau</a>
+  </div>
+{% endif %}
