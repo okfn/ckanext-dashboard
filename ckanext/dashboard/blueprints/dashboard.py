@@ -1,4 +1,5 @@
 import logging
+from ckan import model
 import ckan.plugins as p
 from flask import Blueprint, request, redirect, url_for, flash
 from ckan.logic import NotFound
@@ -10,7 +11,7 @@ from ckanext.dashboard.decorators import require_sysadmin_user
 
 log = logging.getLogger(__name__)
 
-dashboard_bp = Blueprint('dashboard_bp', __name__, url_prefix='/dashboard')
+dashboard_bp = Blueprint('dashboard_bp', __name__, url_prefix='/dashboard_2')
 
 
 @dashboard_bp.route('/', methods=['GET'])
@@ -18,7 +19,7 @@ dashboard_bp = Blueprint('dashboard_bp', __name__, url_prefix='/dashboard')
 def index():
     """Listar las configuraciones de los dashboards"""
     log.debug("Listando configuraciones de dashboard")
-    context = {'model': p.model, 'user': p.toolkit.c.user}
+    context = {'model': model, 'user': p.toolkit.c.user}
     try:
         dashboards = p.toolkit.get_action('dataset_dashboard_list')(context, {})
     except Exception as e:
@@ -32,7 +33,7 @@ def index():
 def edit(package_id):
     """Editar la configuración de un dashboard para el dataset indicado"""
     log.debug("Editando dashboard para package_id: %s", package_id)
-    context = {'model': p.model, 'user': p.toolkit.c.user}
+    context = {'model': model, 'user': p.toolkit.c.user}
 
     if request.method == 'POST':
         data = {
@@ -61,7 +62,7 @@ def edit(package_id):
 def delete(package_id):
     """Eliminar la configuración de un dashboard para el dataset indicado"""
     log.debug("Eliminando dashboard para package_id: %s", package_id)
-    context = {'model': p.model, 'user': p.toolkit.c.user}
+    context = {'model': model, 'user': p.toolkit.c.user}
     try:
         p.toolkit.get_action('dataset_dashboard_delete')(context, {'package_id': package_id})
         flash('Dashboard configuration deleted', 'success')

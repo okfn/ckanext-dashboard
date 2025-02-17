@@ -1,5 +1,5 @@
 import ckan.plugins as p
-from ckan.plugins.toolkit import model
+from ckan import model
 from .blueprints.dashboard import dashboard_bp
 from .models import DatasetDashboard
 from .logic import dashboard
@@ -25,6 +25,7 @@ class DashboardPlugin(p.SingletonPlugin):
     def get_actions(self):
         return {
             'dataset_dashboard_list': dashboard.dataset_dashboard_list,
+            'dataset_dashboard_create': dashboard.dataset_dashboard_create,
             'dataset_dashboard_show': dashboard.dataset_dashboard_show,
             'dataset_dashboard_update': dashboard.dataset_dashboard_update,
             'dataset_dashboard_delete': dashboard.dataset_dashboard_delete
