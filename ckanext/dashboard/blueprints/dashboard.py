@@ -22,8 +22,9 @@ def index():
     context = {'model': model, 'user': p.toolkit.c.user}
     try:
         dashboards = p.toolkit.get_action('dataset_dashboard_list')(context, {})
-    except Exception:
-        flash("An error occurred while loading the dashboards.", "error")
+    except Exception as e:
+        log.error("Failed to load dashboards: %s", e)
+        flash("An error occurred while retrieving the dashboards.", "error")
         dashboards = []
     return render('dashboard/index.html', extra_vars={'dashboards': dashboards})
 
