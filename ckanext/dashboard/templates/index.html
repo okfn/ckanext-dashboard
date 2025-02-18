@@ -6,7 +6,7 @@
   {% for d in dashboards %}
     <li>
       Dataset: {{ d.package_id }} -
-      <a href="{{ url_for('dashboard_bp.edit', package_id=d.package_id) }}">Edit</a>
+      <a href="{{ url_for('dashboard_bp.edit', dashboard_id=d.id) }}">Edit</a>
       <form action="{{ url_for('dashboard_bp.delete', package_id=d.package_id) }}" method="post" style="display:inline;">
         <button type="submit">Delete</button>
       </form>

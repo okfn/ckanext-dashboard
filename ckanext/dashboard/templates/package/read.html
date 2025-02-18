@@ -4,7 +4,7 @@
   {{ super() }}
   
   {# Llamamos al helper para obtener la configuración del dashboard #}
-  {% set dashboard = h.get_dataset_dashboard(package['id']) %}
+  {% set dashboard = h.get_dataset_dashboards(package['id']) %}
   
   {% if dashboard and dashboard.embeded_url %}
     <h3>Dashboard</h3>

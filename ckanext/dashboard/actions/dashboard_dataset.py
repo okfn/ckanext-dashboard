@@ -9,10 +9,10 @@ log = logging.getLogger(__name__)
 @toolkit.side_effect_free
 def dataset_dashboard_list(context, data_dict):
     """
-    Devuelve la lista de configuraciones de dashboard almacenadas en la base de datos.
+    Returns a list of dashboard configurations stored in the database.
 
-    Esta acción es side_effect_free (no tiene efectos colaterales) y verifica
-    que el usuario tenga permisos para listar las configuraciones.
+    This action is side_effect_free (has no side effects) and ensures
+    that the user has the necessary permissions to list dashboard configurations.
     """
     toolkit.check_access('dataset_dashboard_list', context, data_dict)
 
@@ -26,5 +26,134 @@ def dataset_dashboard_list(context, data_dict):
             'embeded_url': dash.embeded_url,
             'report_url': dash.report_url,
         })
-    log.debug("Se han recuperado %d configuraciones de dashboard", len(result))
+    log.debug("Retrieved %d dashboard configurations", len(result))
     return result
+
+
+@toolkit.side_effect_free
+def dataset_dashboard_show(context, data_dict):
+    """
+    Returns details of a specific dashboard.
+
+    :param context: Dictionary with action context information.
+    :param data_dict: Dictionary with input data, must include the dashboard ID.
+    :return: Dictionary with dashboard details.
+    """
+    log.info("Executing dataset_dashboard_show")
+
+    dashboard_id = data_dict.get('id')
+    if not dashboard_id:
+        raise ValueError("The 'id' parameter is required to show the dashboard.")
+
+    session = model.Session
+    dashboard = session.query(DatasetDashboard).filter_by(id=dashboard_id).first()
+
+    if not dashboard:
+        raise ValueError("Dashboard not found.")
+
+    return {
+        'id': dashboard.id,
+        'package_id': dashboard.package_id,
+        'title': dashboard.title,
+        'description': dashboard.description,
+    }
+
+
+def dataset_dashboard_create(context, data_dict):
+    """
+    Creates a new dashboard for a dataset.
+
+    Expected keys in `data_dict` include 'package_id' and 'title'.
+    'description' is optional, but you can add other fields as needed.
+
+    :param context: Dictionary with action context information.
+    :param data_dict: Dictionary with input data for creating the dashboard.
+    :return: Dictionary with the details of the newly created dashboard.
+    """
+    log.info("Executing dataset_dashboard_create")
+
+    # Validate required fields
+    required_fields = ['package_id', 'title']
+    missing_fields = [field for field in required_fields if field not in data_dict]
+    if missing_fields:
+        raise ValueError("Missing required fields: " + ", ".join(missing_fields))
+
+    session = model.Session
+
+    new_dashboard = DatasetDashboard(
+        package_id=data_dict.get('package_id'),
+        title=data_dict.get('title'),
+        description=data_dict.get('description', '')  # 'description' is optional
+    )
+
+    session.add(new_dashboard)
+    session.commit()
+
+    return {
+        'id': new_dashboard.id,
+        'package_id': new_dashboard.package_id,
+        'title': new_dashboard.title,
+        'description': new_dashboard.description,
+    }
+
+
+def dataset_dashboard_update(context, data_dict):
+    """
+    Updates a specific dashboard.
+
+    :param context: Dictionary with action context information.
+    :param data_dict: Dictionary with input data, must include the dashboard ID.
+    :return: Dictionary with the updated dashboard details.
+    """
+    log.info("Executing dataset_dashboard_update")
+
+    dashboard_id = data_dict.get('id')
+    if not dashboard_id:
+        raise ValueError("The 'id' parameter is required to update the dashboard.")
+
+    session = model.Session
+    dashboard = session.query(DatasetDashboard).filter_by(id=dashboard_id).first()
+
+    if not dashboard:
+        raise ValueError("Dashboard not found.")
+
+    if 'title' in data_dict:
+        dashboard.title = data_dict['title']
+    if 'description' in data_dict:
+        dashboard.description = data_dict['description']
+
+    session.add(dashboard)
+    session.commit()
+
+    return {
+        'id': dashboard.id,
+        'package_id': dashboard.package_id,
+        'title': dashboard.title,
+        'description': dashboard.description,
+    }
+
+
+def dataset_dashboard_delete(context, data_dict):
+    """
+    Deletes a specific dashboard.
+
+    :param context: Dictionary with action context information.
+    :param data_dict: Dictionary with input data, must include the dashboard ID.
+    :return: Dictionary confirming the deletion.
+    """
+    log.info("Executing dataset_dashboard_delete")
+
+    dashboard_id = data_dict.get('id')
+    if not dashboard_id:
+        raise ValueError("The 'id' parameter is required to delete the dashboard.")
+
+    session = model.Session
+    dashboard = session.query(DatasetDashboard).filter_by(id=dashboard_id).first()
+
+    if not dashboard:
+        raise ValueError("Dashboard not found.")
+
+    session.delete(dashboard)
+    session.commit()
+
+    return {'success': True, 'message': 'Dashboard successfully deleted.'}

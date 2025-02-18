@@ -3,7 +3,11 @@ import ckan.plugins.toolkit as toolkit
 from ckan import model
 from .blueprints.dashboard import dashboard_bp
 from .models import DatasetDashboard
-from .logic import dashboard
+from ckanext.dashboard.actions.dashboard_dataset import (dataset_dashboard_list,
+                                                         dataset_dashboard_create,
+                                                         dataset_dashboard_show,
+                                                         dataset_dashboard_update,
+                                                         dataset_dashboard_delete)
 from ckanext.dashboard.auth import dashboard_dataset as auth
 
 
@@ -21,6 +25,11 @@ class DashboardPlugin(p.SingletonPlugin):
         toolkit.add_template_directory(config_, "templates")
         toolkit.add_public_directory(config_, "public")
         toolkit.add_resource("assets", "dashboard")
+        dashboard_template_path = '/app/ckanext/dashboard/templates'
+        if 'extra_template_paths' in config_:
+            config_['extra_template_paths'] += ';' + dashboard_template_path
+        else:
+            config_['extra_template_paths'] = dashboard_template_path
 
     def get_blueprint(self):
         return dashboard_bp
@@ -39,11 +48,11 @@ class DashboardPlugin(p.SingletonPlugin):
 
     def get_actions(self):
         return {
-            'dataset_dashboard_list': dashboard.dataset_dashboard_list,
-            'dataset_dashboard_create': dashboard.dataset_dashboard_create,
-            'dataset_dashboard_show': dashboard.dataset_dashboard_show,
-            'dataset_dashboard_update': dashboard.dataset_dashboard_update,
-            'dataset_dashboard_delete': dashboard.dataset_dashboard_delete
+            'dataset_dashboard_list': dataset_dashboard_list,
+            'dataset_dashboard_create': dataset_dashboard_create,
+            'dataset_dashboard_show': dataset_dashboard_show,
+            'dataset_dashboard_update': dataset_dashboard_update,
+            'dataset_dashboard_delete': dataset_dashboard_delete
         }
 
     def get_helpers(self):
