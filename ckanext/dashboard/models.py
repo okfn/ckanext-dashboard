@@ -6,7 +6,7 @@ from ckan.model.types import UuidType
 
 
 class DatasetDashboard(toolkit.BaseModel, ActiveRecordMixin):
-    """Modelo de datos para almacenar la configuración de un dashboard por dataset"""
+    """Data model for storing the configuration of a dashboard per dataset"""
     __tablename__ = "ndx_dataset_dashboard"
 
     id = Column(Integer, primary_key=True)

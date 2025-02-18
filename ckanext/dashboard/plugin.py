@@ -8,7 +8,7 @@ from ckanext.dashboard.auth import dashboard_dataset as auth
 
 
 class DashboardPlugin(p.SingletonPlugin):
-    """Plugin para el manejo de dashboards en CKAN"""
+    """Plugin for managing dashboards in CKAN"""
     p.implements(p.IConfigurer)
     p.implements(p.IBlueprint)
     p.implements(p.IActions)

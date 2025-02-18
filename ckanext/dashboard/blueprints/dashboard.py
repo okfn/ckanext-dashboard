@@ -5,8 +5,8 @@ from flask import Blueprint, request, redirect, url_for, flash
 from ckan.logic import NotFound
 from ckan.plugins.toolkit import render
 
-# Importa o define el decorador para restringir el acceso a sysadmins.
-# Puedes definirlo en tu extensión o importarlo si ya lo tienes.
+# Import or define the decorator to restrict access to sysadmins.
+# You can define it in your extension or import it if you already have it.
 from ckanext.dashboard.decorators import require_sysadmin_user
 
 log = logging.getLogger(__name__)
@@ -17,13 +17,13 @@ dashboard_bp = Blueprint('dashboard_bp', __name__, url_prefix='/dashboard-extern
 @dashboard_bp.route('/', methods=['GET'], endpoint='dashboard_list')
 @require_sysadmin_user
 def index():
-    """Listar las configuraciones de los dashboards"""
-    log.debug("Listando configuraciones de dashboard")
+    """List dashboard configurations"""
+    log.debug("Listing dashboard configurations")
     context = {'model': model, 'user': p.toolkit.c.user}
     try:
         dashboards = p.toolkit.get_action('dataset_dashboard_list')(context, {})
-    except Exception as e:
-        log.error("Error al listar dashboards: %s", e)
+    except Exception:
+        flash("An error occurred while loading the dashboards.", "error")
         dashboards = []
     return render('dashboard/index.html', extra_vars={'dashboards': dashboards})
 
@@ -31,51 +31,51 @@ def index():
 @dashboard_bp.route('/new', methods=['GET', 'POST'], endpoint='dashboard_new')
 @require_sysadmin_user
 def dashboard_new():
-    """Crear un nuevo dashboard (vista y lógica para la creación)"""
-    # Aquí implementa la lógica para crear un dashboard
+    """Create a new dashboard (view and logic for creation)"""
+    # Implement the logic to create a dashboard here
     return render('dashboard/new.html')
 
 
-@dashboard_bp.route('/edit/<package_id>', methods=['GET', 'POST'], endpoint='dashboard_edit')
+@dashboard_bp.route('/edit/<dashboard_id>', methods=['GET', 'POST'], endpoint='dashboard_edit')
 @require_sysadmin_user
-def dashboard_edit(package_id):
-    """Editar la configuración de un dashboard para el dataset indicado"""
-    log.debug("Editando dashboard para package_id: %s", package_id)
+def dashboard_edit(dashboard_id):
+    """Edit the configuration of a dashboard using its unique ID"""
+    log.debug("Editing dashboard for dashboard_id: %s", dashboard_id)
     context = {'model': model, 'user': p.toolkit.c.user}
 
     if request.method == 'POST':
         data = {
-            'package_id': package_id,
+            'dashboard_id': dashboard_id,
             'embeded_url': request.form.get('embeded_url'),
             'report_url': request.form.get('report_url')
         }
         try:
             p.toolkit.get_action('dataset_dashboard_update')(context, data)
             flash('Dashboard updated successfully', 'success')
-            log.info("Dashboard actualizado para package_id: %s", package_id)
+            log.info("Dashboard updated for dashboard_id: %s", dashboard_id)
         except Exception as e:
-            flash('Error: {}'.format(e), 'error')
-            log.error("Error actualizando dashboard para package_id %s: %s", package_id, e)
+            flash(f'Error: {e}', 'error')
+            log.error("Error updating dashboard for dashboard_id %s: %s", dashboard_id, e)
         return redirect(url_for('dashboard_bp.index'))
     else:
         try:
-            dashboard = p.toolkit.get_action('dataset_dashboard_show')(context, {'package_id': package_id})
+            dashboard = p.toolkit.get_action('dataset_dashboard_show')(context, {'dashboard_id': dashboard_id})
         except NotFound:
             dashboard = None
-        return render('dashboard/edit.html', extra_vars={'dashboard': dashboard, 'package_id': package_id})
+        return render('dashboard/edit.html', extra_vars={'dashboard': dashboard, 'dashboard_id': dashboard_id})
 
 
-@dashboard_bp.route('/delete/<package_id>', methods=['POST'], endpoint='dashboard_delete')
+@dashboard_bp.route('/delete/<dashboard_id>', methods=['POST'], endpoint='dashboard_delete')
 @require_sysadmin_user
-def dashboard_delete(package_id):
-    """Eliminar la configuración de un dashboard para el dataset indicado"""
-    log.debug("Eliminando dashboard para package_id: %s", package_id)
+def dashboard_delete(dashboard_id):
+    """Delete the configuration of a dashboard using its unique ID"""
+    log.debug("Deleting dashboard for dashboard_id: %s", dashboard_id)
     context = {'model': model, 'user': p.toolkit.c.user}
     try:
-        p.toolkit.get_action('dataset_dashboard_delete')(context, {'package_id': package_id})
+        p.toolkit.get_action('dataset_dashboard_delete')(context, {'dashboard_id': dashboard_id})
         flash('Dashboard configuration deleted', 'success')
-        log.info("Dashboard eliminado para package_id: %s", package_id)
+        log.info("Dashboard deleted for dashboard_id: %s", dashboard_id)
     except Exception as e:
-        flash('Error: {}'.format(e), 'error')
-        log.error("Error eliminando dashboard para package_id %s: %s", package_id, e)
+        flash(f'Error: {e}', 'error')
+        log.error("Error deleting dashboard for dashboard_id %s: %s", dashboard_id, e)
     return redirect(url_for('dashboard_bp.index'))
