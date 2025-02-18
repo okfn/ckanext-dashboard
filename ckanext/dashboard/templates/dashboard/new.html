@@ -1,0 +1,16 @@
+{% extends "admin/base.html" %}
+
+{% block title %}New Dashboard{% endblock %}
+
+{% block content %}
+  <h1>Create a New Dashboard</h1>
+  <form method="post">
+    <label for="embeded_url">Embed URL:</label>
+    <input type="text" name="embeded_url" id="embeded_url" required>
+    <br>
+    <label for="report_url">Report URL:</label>
+    <input type="text" name="report_url" id="report_url" required>
+    <br>
+    <button type="submit">Create Dashboard</button>
+  </form>
+{% endblock %}

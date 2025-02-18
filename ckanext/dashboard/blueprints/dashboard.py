@@ -11,10 +11,10 @@ from ckanext.dashboard.decorators import require_sysadmin_user
 
 log = logging.getLogger(__name__)
 
-dashboard_bp = Blueprint('dashboard_bp', __name__, url_prefix='/dashboard_2')
+dashboard_bp = Blueprint('dashboard_bp', __name__, url_prefix='/dashboard-external')
 
 
-@dashboard_bp.route('/', methods=['GET'])
+@dashboard_bp.route('/', methods=['GET'], endpoint='dashboard_list')
 @require_sysadmin_user
 def index():
     """Listar las configuraciones de los dashboards"""
@@ -28,9 +28,17 @@ def index():
     return render('dashboard/index.html', extra_vars={'dashboards': dashboards})
 
 
-@dashboard_bp.route('/edit/<package_id>', methods=['GET', 'POST'])
+@dashboard_bp.route('/new', methods=['GET', 'POST'], endpoint='dashboard_new')
 @require_sysadmin_user
-def edit(package_id):
+def dashboard_new():
+    """Crear un nuevo dashboard (vista y lógica para la creación)"""
+    # Aquí implementa la lógica para crear un dashboard
+    return render('dashboard/new.html')
+
+
+@dashboard_bp.route('/edit/<package_id>', methods=['GET', 'POST'], endpoint='dashboard_edit')
+@require_sysadmin_user
+def dashboard_edit(package_id):
     """Editar la configuración de un dashboard para el dataset indicado"""
     log.debug("Editando dashboard para package_id: %s", package_id)
     context = {'model': model, 'user': p.toolkit.c.user}
@@ -57,9 +65,9 @@ def edit(package_id):
         return render('dashboard/edit.html', extra_vars={'dashboard': dashboard, 'package_id': package_id})
 
 
-@dashboard_bp.route('/delete/<package_id>', methods=['POST'])
+@dashboard_bp.route('/delete/<package_id>', methods=['POST'], endpoint='dashboard_delete')
 @require_sysadmin_user
-def delete(package_id):
+def dashboard_delete(package_id):
     """Eliminar la configuración de un dashboard para el dataset indicado"""
     log.debug("Eliminando dashboard para package_id: %s", package_id)
     context = {'model': model, 'user': p.toolkit.c.user}

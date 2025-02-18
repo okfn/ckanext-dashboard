@@ -1,0 +1,10 @@
+{% ckan_extends %}
+
+{% block content_primary_nav %}
+  {{ super() }}
+  {{ h.build_nav_icon('dashboard_bp.dashboard_list', _('Dashboards'), icon='icon-list') }}
+  {{ h.build_nav_icon('dashboard_bp.dashboard_new', _('New Dashboard'), icon='icon-plus') }}
+  {# Los endpoints que requieren package_id se muestran en contextos específicos y no en la navegación global #}
+{% endblock %}
+
+
