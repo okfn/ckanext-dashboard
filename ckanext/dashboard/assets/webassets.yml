@@ -1,14 +1,14 @@
-# dashboard-js:
+# superset-js:
 #   filter: rjsmin
-#   output: ckanext-dashboard/%(version)s-dashboard.js
+#   output: ckanext-superset/%(version)s-superset.js
 #   contents:
-#     - js/dashboard.js
+#     - js/superset.js
 #   extra:
 #     preload:
 #       - base/main
 
-dashboard-css:
+superset-css:
   filter: cssrewrite
-  output: ckanext-dashboard/%(version)s-dashboard.css
+  output: ckanext-superset/%(version)s-superset.css
   contents:
-    - css/dashboard.css
+    - css/superset.css

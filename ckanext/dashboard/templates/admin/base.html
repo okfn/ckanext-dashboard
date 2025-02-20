@@ -1,5 +1,10 @@
 {% ckan_extends %}
 
+{% block styles %}
+    {{ super() }}
+    {% asset 'superset/superset-css' %}
+{% endblock %}
+
 {% block content_primary_nav %}
   {{ super() }}
   {{ h.build_nav_icon('dashboard_bp.dashboard_list', _('External dashboards'), icon='icon-list') }}
