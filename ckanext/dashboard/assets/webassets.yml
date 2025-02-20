@@ -7,8 +7,8 @@
 #     preload:
 #       - base/main
 
-# dashboard-css:
-#   filter: cssrewrite
-#   output: ckanext-dashboard/%(version)s-dashboard.css
-#   contents:
-#     - css/dashboard.css
+dashboard-css:
+  filter: cssrewrite
+  output: ckanext-dashboard/%(version)s-dashboard.css
+  contents:
+    - css/dashboard.css

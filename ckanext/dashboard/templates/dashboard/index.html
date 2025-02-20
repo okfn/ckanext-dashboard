@@ -3,14 +3,20 @@
 {% block title %}Dashboard - List{% endblock %}
 
 {% block content %}
-  <h1>Dashboard - List</h1>
-  {% if dashboards %}
-    <ul>
-      {% for dashboard in dashboards %}
-        <li>{{ dashboard }}</li>
-      {% endfor %}
-    </ul>
-  {% else %}
-    <p>No dashboards found.</p>
-  {% endif %}
+  <div class="dashboard-list-container">
+    <h1>📊 Dashboard - List</h1>
+
+    {% if dashboards %}
+      <ul class="dashboard-list">
+        {% for dashboard in dashboards %}
+          <li class="dashboard-item">
+            <strong>{{ dashboard.title }}</strong><br>
+            <a href="{{ h.url_for('dashboard.view', id=dashboard.id) }}">View Dashboard</a>
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p class="no-dashboards">🚫 No dashboards found.</p>
+    {% endif %}
+  </div>
 {% endblock %}
