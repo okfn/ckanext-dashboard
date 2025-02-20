@@ -24,7 +24,7 @@ class DashboardPlugin(p.SingletonPlugin):
     def update_config(self, config_):
         toolkit.add_template_directory(config_, "templates")
         toolkit.add_public_directory(config_, "public")
-        toolkit.add_resource("assets", "superset")
+        toolkit.add_resource("assets", "dashboard")
         dashboard_template_path = '/app/ckanext/dashboard/templates'
         if 'extra_template_paths' in config_:
             config_['extra_template_paths'] += ';' + dashboard_template_path

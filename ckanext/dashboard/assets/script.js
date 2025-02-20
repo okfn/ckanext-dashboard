@@ -1,4 +1,4 @@
-ckan.module("superset-module", function ($, _) {
+ckan.module("dashboard-module", function ($, _) {
   "use strict";
   return {
     options: {
