@@ -1,8 +1,8 @@
 import ckan.plugins as p
 import ckan.plugins.toolkit as toolkit
 from ckan import model
-from .blueprints.dashboard import dashboard_bp
-from .models import DatasetDashboard
+from ckanext.dashboard.blueprints.dashboard import dashboard_bp
+from ckanext.dashboard.models import DatasetDashboard
 from ckanext.dashboard.actions.dashboard_dataset import (dataset_dashboard_list,
                                                          dataset_dashboard_create,
                                                          dataset_dashboard_show,
@@ -38,11 +38,11 @@ class DashboardPlugin(p.SingletonPlugin):
 
     def get_auth_functions(self):
         functions = {
-            "dashboard_dataset_list": auth.dashboard_dataset_list,
-            "dashboard_dataset_create": auth.dashboard_dataset_create,
-            "dashboard_dataset_show": auth.dashboard_dataset_show,
-            "dashboard_dataset_update": auth.dashboard_dataset_update,
-            "dashboard_dataset_delete": auth.dashboard_dataset_delete,
+            "dataset_dashboard_list": auth.dashboard_dataset_list,
+            "dataset_dashboard_create": auth.dashboard_dataset_create,
+            "dataset_dashboard_show": auth.dashboard_dataset_show,
+            "dataset_dashboard_update": auth.dashboard_dataset_update,
+            "dataset_dashboard_delete": auth.dashboard_dataset_delete,
         }
         return functions
 

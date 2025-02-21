@@ -1,22 +1,31 @@
 {% extends "admin/base.html" %}
+{% block title %}{% if dashboard %}Edit{% else %}Add{% endif %} Dashboard{% endblock %}
+
 {% block content %}
-<h1>{% if dashboard %}Edit{% else %}Add{% endif %} Dashboard for Dataset {{ package_id }}</h1>
+<div class="container mt-4">
+  <h1 class="mb-4">
+    {% if dashboard %}Edit{% else %}Add{% endif %} Dashboard for Dataset {{ package_id }}
+  </h1>
+  <form method="post">
+    <!-- CSRF Token -->
+    {{ h.csrf_input() }}
 
-<form method="post">
-  <!-- CSRF Token -->
-  {{ h.csrf_input() }}
+    <!-- Si se está editando, se incluye el dashboard_id -->
+    {% if dashboard %}
+      <input type="hidden" name="dashboard_id" value="{{ dashboard.id }}">
+    {% endif %}
 
-  <!-- Include dashboard_id is editing -->
-  {% if dashboard %}
-    <input type="hidden" name="dashboard_id" value="{{ dashboard.id }}">
-  {% endif %}
-
-  <label>Embeded URL:</label>
-  <input type="text" name="embeded_url" value="{{ dashboard.embeded_url if dashboard else '' }}">
-  <br>
-  <label>Report URL:</label>
-  <input type="text" name="report_url" value="{{ dashboard.report_url if dashboard else '' }}">
-  <br>
-  <button type="submit">Save</button>
-</form>
+    <div class="mb-3">
+      <label for="embeded_url" class="form-label">Embeded URL:</label>
+      <input type="text" name="embeded_url" id="embeded_url" class="form-control" placeholder="Enter embed URL" value="{{ dashboard.embeded_url if dashboard else '' }}">
+    </div>
+    
+    <div class="mb-3">
+      <label for="report_url" class="form-label">Report URL:</label>
+      <input type="text" name="report_url" id="report_url" class="form-control" placeholder="Enter report URL" value="{{ dashboard.report_url if dashboard else '' }}">
+    </div>
+    
+    <button type="submit" class="btn btn-primary">Save</button>
+  </form>
+</div>
 {% endblock %}

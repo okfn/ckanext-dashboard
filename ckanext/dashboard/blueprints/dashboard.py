@@ -33,7 +33,23 @@ def index():
 @require_sysadmin_user
 def dashboard_new():
     """Create a new dashboard (view and logic for creation)"""
-    # Implement the logic to create a dashboard here
+    log.debug("Creating a new dashboard")
+    if request.method == 'POST':
+        data = {
+            'package_id': request.form.get('package_id'),
+            'title': request.form.get('title'),
+            'embeded_url': request.form.get('embeded_url'),
+            'report_url': request.form.get('report_url')
+        }
+        context = {'model': model, 'user': p.toolkit.c.user}
+        try:
+            p.toolkit.get_action('dataset_dashboard_create')(context, data)
+            flash('Dashboard created successfully', 'success')
+            log.info("Dashboard created")
+        except Exception as e:
+            flash(f'Error: {e}', 'error')
+            log.error("Error creating dashboard: %s", e)
+        return redirect(url_for('dashboard_bp.dashboard_list'))
     return render('dashboard/new.html')
 
 
@@ -57,7 +73,7 @@ def dashboard_edit(dashboard_id):
         except Exception as e:
             flash(f'Error: {e}', 'error')
             log.error("Error updating dashboard for dashboard_id %s: %s", dashboard_id, e)
-        return redirect(url_for('dashboard_bp.index'))
+        return redirect(url_for('dashboard_bp.dashboard_list'))
     else:
         try:
             dashboard = p.toolkit.get_action('dataset_dashboard_show')(context, {'dashboard_id': dashboard_id})
@@ -79,4 +95,4 @@ def dashboard_delete(dashboard_id):
     except Exception as e:
         flash(f'Error: {e}', 'error')
         log.error("Error deleting dashboard for dashboard_id %s: %s", dashboard_id, e)
-    return redirect(url_for('dashboard_bp.index'))
+    return redirect(url_for('dashboard_bp.dashboard_list'))
