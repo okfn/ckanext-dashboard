@@ -11,7 +11,7 @@
         {% for dashboard in dashboards %}
           <li class="dashboard-item">
             <strong>{{ dashboard.title }}</strong><br>
-            <a href="{{ h.url_for('dashboard.view', id=dashboard.id) }}">View Dashboard</a>
+            <a href="{{ h.url_for('dashboard_bp.dashboard_show', dashboard_id=dashboard.id) }}">View Dashboard</a>
           </li>
         {% endfor %}
       </ul>

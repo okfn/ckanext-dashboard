@@ -99,3 +99,16 @@ def dashboard_delete(dashboard_id):
         h.flash_error(f'Error: {e}', 'error')
         log.error("Error deleting dashboard for dashboard_id %s: %s", dashboard_id, e)
     return redirect(url_for('dashboard_bp.dashboard_list'))
+
+
+@dashboard_bp.route('/show/<dashboard_id>', methods=['GET'], endpoint='dashboard_show')
+@require_sysadmin_user
+def dashboard_show(dashboard_id):
+    """Show the configuration of a dashboard using its unique ID"""
+    log.debug("Showing dashboard for dashboard_id: %s", dashboard_id)
+    context = {'model': model, 'user': p.toolkit.c.user}
+    try:
+        dashboard = p.toolkit.get_action('dataset_dashboard_show')(context, {'dashboard_id': dashboard_id})
+    except NotFound:
+        dashboard = None
+    return render('dashboard/show.html', extra_vars={'dashboard': dashboard, 'dashboard_id': dashboard_id})
