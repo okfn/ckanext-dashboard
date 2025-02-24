@@ -22,6 +22,8 @@ def dataset_dashboard_list(context, data_dict):
     for dash in dashboards:
         result.append({
             'dashboard_id': dash.id,
+            'title': dash.title,
+            'description': dash.description,
             'package_id': dash.package_id,
             'embeded_url': dash.embeded_url,
             'report_url': dash.report_url,

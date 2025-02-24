@@ -9,7 +9,6 @@
     {% if dashboard %}
         <h1>{{ dashboard.title }}</h1>
 
-        <p><strong>Package ID:</strong> {{ dashboard.package_id }}</p>
         <p><strong>Description:</strong> {{ dashboard.description or "No description provided." }}</p>
         <p><strong>Embedded URL:</strong> 
             {% if dashboard.embeded_url %}

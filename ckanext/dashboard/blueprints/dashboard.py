@@ -41,6 +41,7 @@ def dashboard_new():
         data = {
             'package_id': request.form.get('package_id'),
             'title': request.form.get('title'),
+            'description': request.form.get('description'),
             'embeded_url': request.form.get('embeded_url'),
             'report_url': request.form.get('report_url')
         }
@@ -79,7 +80,7 @@ def dashboard_edit(dashboard_id):
         return redirect(url_for('dashboard_bp.dashboard_list'))
     else:
         try:
-            dashboard = p.toolkit.get_action('dataset_dashboard_show')(context, {'dashboard_id': dashboard_id})
+            dashboard = p.toolkit.get_action('dataset_dashboard_show')(context, {'id': dashboard_id})
         except NotFound:
             dashboard = None
         return render('dashboard/edit.html', extra_vars={'dashboard': dashboard, 'dashboard_id': dashboard_id})
@@ -92,7 +93,7 @@ def dashboard_delete(dashboard_id):
     log.debug("Deleting dashboard for dashboard_id: %s", dashboard_id)
     context = {'model': model, 'user': p.toolkit.c.user}
     try:
-        p.toolkit.get_action('dataset_dashboard_delete')(context, {'dashboard_id': dashboard_id})
+        p.toolkit.get_action('dataset_dashboard_delete')(context, {'id': dashboard_id})
         h.flash_success('Dashboard configuration deleted', 'success')
         log.info("Dashboard deleted for dashboard_id: %s", dashboard_id)
     except Exception as e:
@@ -108,7 +109,8 @@ def dashboard_show(dashboard_id):
     log.debug("Showing dashboard for dashboard_id: %s", dashboard_id)
     context = {'model': model, 'user': p.toolkit.c.user}
     try:
-        dashboard = p.toolkit.get_action('dataset_dashboard_show')(context, {'dashboard_id': dashboard_id})
+        dashboard = p.toolkit.get_action('dataset_dashboard_show')(context, {'id': dashboard_id})
+        h.flash_success('Dashboard configuration deleted', 'success')
     except NotFound:
         dashboard = None
     return render('dashboard/show.html', extra_vars={'dashboard': dashboard, 'dashboard_id': dashboard_id})
