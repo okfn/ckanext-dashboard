@@ -1,9 +1,10 @@
 import logging
 from ckan import model
 import ckan.plugins as p
-from flask import Blueprint, request, redirect, url_for, flash
+from flask import Blueprint, request, redirect, url_for
 from ckan.logic import NotFound
 from ckan.plugins.toolkit import render
+from ckan.lib.helpers import helper_functions as h
 
 # Import or define the decorator to restrict access to sysadmins.
 # You can define it in your extension or import it if you already have it.
@@ -23,9 +24,11 @@ def index():
     try:
         dashboards = p.toolkit.get_action('dataset_dashboard_list')(context, {})
     except Exception as e:
+        model.Session.rollback()
         log.error("Failed to load dashboards: %s", e)
-        flash("An error occurred while retrieving the dashboards.", "error")
+        h.flash_error("An error occurred while retrieving the dashboards.", "error")
         dashboards = []
+        h.flash_error(f'Error: {e}', 'error')
     return render('dashboard/index.html', extra_vars={'dashboards': dashboards})
 
 
@@ -44,10 +47,10 @@ def dashboard_new():
         context = {'model': model, 'user': p.toolkit.c.user}
         try:
             p.toolkit.get_action('dataset_dashboard_create')(context, data)
-            flash('Dashboard created successfully', 'success')
+            h.flash_success('Dashboard created successfully', 'success')
             log.info("Dashboard created")
         except Exception as e:
-            flash(f'Error: {e}', 'error')
+            h.flash_error(f'Error: {e}', 'error')
             log.error("Error creating dashboard: %s", e)
         return redirect(url_for('dashboard_bp.dashboard_list'))
     return render('dashboard/new.html')
@@ -68,10 +71,10 @@ def dashboard_edit(dashboard_id):
         }
         try:
             p.toolkit.get_action('dataset_dashboard_update')(context, data)
-            flash('Dashboard updated successfully', 'success')
+            h.flash_success('Dashboard updated successfully', 'success')
             log.info("Dashboard updated for dashboard_id: %s", dashboard_id)
         except Exception as e:
-            flash(f'Error: {e}', 'error')
+            h.flash_error(f'Error: {e}', 'error')
             log.error("Error updating dashboard for dashboard_id %s: %s", dashboard_id, e)
         return redirect(url_for('dashboard_bp.dashboard_list'))
     else:
@@ -90,9 +93,9 @@ def dashboard_delete(dashboard_id):
     context = {'model': model, 'user': p.toolkit.c.user}
     try:
         p.toolkit.get_action('dataset_dashboard_delete')(context, {'dashboard_id': dashboard_id})
-        flash('Dashboard configuration deleted', 'success')
+        h.flash_success('Dashboard configuration deleted', 'success')
         log.info("Dashboard deleted for dashboard_id: %s", dashboard_id)
     except Exception as e:
-        flash(f'Error: {e}', 'error')
+        h.flash_error(f'Error: {e}', 'error')
         log.error("Error deleting dashboard for dashboard_id %s: %s", dashboard_id, e)
     return redirect(url_for('dashboard_bp.dashboard_list'))
