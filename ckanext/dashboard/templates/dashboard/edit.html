@@ -10,7 +10,7 @@
     <!-- CSRF Token -->
     {{ h.csrf_input() }}
 
-    <!-- Si se está editando, se incluye el dashboard_id -->
+    <!-- If editing, include the dashboard_id -->
     {% if dashboard %}
       <input type="hidden" name="dashboard_id" value="{{ dashboard.id }}">
     {% endif %}

@@ -24,7 +24,6 @@ def index():
     try:
         dashboards = p.toolkit.get_action('dataset_dashboard_list')(context, {})
     except Exception as e:
-        model.Session.rollback()
         log.error("Failed to load dashboards: %s", e)
         h.flash_error("An error occurred while retrieving the dashboards.", "error")
         dashboards = []

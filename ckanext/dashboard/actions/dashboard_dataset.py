@@ -44,9 +44,7 @@ def dataset_dashboard_show(context, data_dict):
     """
     log.info("Executing dataset_dashboard_show")
 
-    dashboard_id = data_dict.get('id')
-    if not dashboard_id:
-        raise ValueError("The 'id' parameter is required to show the dashboard.")
+    dashboard_id = toolkit.get_or_bust(data_dict, 'id')
 
     session = model.Session
     dashboard = session.query(DatasetDashboard).filter_by(id=dashboard_id).first()
@@ -78,14 +76,11 @@ def dataset_dashboard_create(context, data_dict):
     log.info("Executing dataset_dashboard_create")
 
     # Validate required fields
-    required_fields = ['package_id', 'title']
-    missing_fields = [field for field in required_fields if field not in data_dict]
-    if missing_fields:
-        raise ValueError("Missing required fields: " + ", ".join(missing_fields))
+    package_id, title = toolkit.get_or_bust(data_dict, ['package_id', 'title'])
 
     session = model.Session
     # Extract and validate package_id
-    package_id = data_dict.get('package_id', '').strip()
+
     if not package_id:
         # Generate a new UUID if package_id is empty
         package_id = str(uuid.uuid4())
@@ -122,7 +117,7 @@ def dataset_dashboard_update(context, data_dict):
     """
     log.info("Executing dataset_dashboard_update")
 
-    dashboard_id = data_dict.get('id')
+    dashboard_id = toolkit.get_or_bust('id')
     if not dashboard_id:
         raise ValueError("The 'id' parameter is required to update the dashboard.")
 
