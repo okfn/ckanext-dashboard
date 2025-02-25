@@ -1,7 +1,5 @@
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, Integer, String
-from ckan.plugins import toolkit
-from ckan.model.base import ActiveRecordMixin
 
 from ckan.model.types import UuidType
 from ckan import model

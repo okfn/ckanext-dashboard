@@ -1,4 +1,5 @@
 import logging
+import uuid
 from ckan.plugins import toolkit
 from ckan import model
 from ckanext.dashboard.models import DatasetDashboard
@@ -58,6 +59,8 @@ def dataset_dashboard_show(context, data_dict):
         'package_id': dashboard.package_id,
         'title': dashboard.title,
         'description': dashboard.description,
+        'embeded_url': dashboard.embeded_url,
+        'report_url': dashboard.report_url
     }
 
 
@@ -81,11 +84,19 @@ def dataset_dashboard_create(context, data_dict):
         raise ValueError("Missing required fields: " + ", ".join(missing_fields))
 
     session = model.Session
+    # Extract and validate package_id
+    package_id = data_dict.get('package_id', '').strip()
+    if not package_id:
+        # Generate a new UUID if package_id is empty
+        package_id = str(uuid.uuid4())
+        log.info(f"Generated new package_id: {package_id}")
 
     new_dashboard = DatasetDashboard(
-        package_id=data_dict.get('package_id'),
+        package_id=package_id,
         title=data_dict.get('title'),
-        description=data_dict.get('description', '')  # 'description' is optional
+        description=data_dict.get('description', ''),
+        embeded_url=data_dict.get('embeded_url', ''),
+        report_url=data_dict.get('report_url', ''),
     )
 
     session.add(new_dashboard)
@@ -96,6 +107,8 @@ def dataset_dashboard_create(context, data_dict):
         'package_id': new_dashboard.package_id,
         'title': new_dashboard.title,
         'description': new_dashboard.description,
+        'embeded_url': new_dashboard.embeded_url,
+        'report_url': new_dashboard.report_url,
     }
 
 
@@ -132,6 +145,8 @@ def dataset_dashboard_update(context, data_dict):
         'package_id': dashboard.package_id,
         'title': dashboard.title,
         'description': dashboard.description,
+        'embeded_url': dashboard.embeded_url,
+        'report_url': dashboard.report
     }
 
 

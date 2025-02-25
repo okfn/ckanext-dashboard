@@ -1,7 +1,7 @@
 """Create dashboard_package table
 
 Revision ID: 43a02b9d1c09
-Revises: 
+Revises:
 Create Date: 2025-02-24 17:29:28.632072
 
 """
