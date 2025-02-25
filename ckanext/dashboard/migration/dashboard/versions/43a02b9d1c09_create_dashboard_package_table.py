@@ -7,6 +7,7 @@ Create Date: 2025-02-24 17:29:28.632072
 """
 from alembic import op
 import sqlalchemy as sa
+from sqlalchemy.dialects import postgresql
 
 # revision identifiers, used by Alembic.
 revision = '43a02b9d1c09'
@@ -19,11 +20,11 @@ def upgrade():
     op.create_table(
         'dashboard_package',
         sa.Column('id', sa.Integer, primary_key=True),
-        sa.Column('package_id', sa.String(36), nullable=False, unique=True),
-        sa.Column('title', sa.String(200), nullable=False),
-        sa.Column('description', sa.String(500)),
-        sa.Column('embeded_url', sa.String(200)),
-        sa.Column('report_url', sa.String(200))
+        sa.Column('package_id', postgresql.UUID(as_uuid=True), nullable=False, unique=True),
+        sa.Column('title', sa.String(length=200), nullable=False),
+        sa.Column('description', sa.String(length=500)),
+        sa.Column('embeded_url', sa.String(length=200)),
+        sa.Column('report_url', sa.String(length=200))
     )
 
 
