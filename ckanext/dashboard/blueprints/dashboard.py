@@ -12,7 +12,7 @@ from ckanext.dashboard.decorators import require_sysadmin_user
 
 log = logging.getLogger(__name__)
 
-dashboard_bp = Blueprint('dashboard_bp', __name__, url_prefix='/dashboard-external')
+dashboard_bp = Blueprint('embeded_dashboard', __name__, url_prefix='/embeded-dashboard')
 
 
 @dashboard_bp.route('/', methods=['GET'], endpoint='dashboard_list')
@@ -52,7 +52,7 @@ def dashboard_new():
         except Exception as e:
             h.flash_error(f'Error: {e}', 'error')
             log.error("Error creating dashboard: %s", e)
-        return redirect(url_for('dashboard_bp.dashboard_list'))
+        return redirect(url_for('embeded_dashboard.dashboard_list'))
     return render('dashboard/new.html')
 
 
@@ -76,7 +76,7 @@ def dashboard_edit(dashboard_id):
         except Exception as e:
             h.flash_error(f'Error: {e}', 'error')
             log.error("Error updating dashboard for dashboard_id %s: %s", dashboard_id, e)
-        return redirect(url_for('dashboard_bp.dashboard_list'))
+        return redirect(url_for('embeded_dashboard.dashboard_list'))
     else:
         try:
             dashboard = p.toolkit.get_action('dataset_dashboard_show')(context, {'id': dashboard_id})
@@ -98,7 +98,7 @@ def dashboard_delete(dashboard_id):
     except Exception as e:
         h.flash_error(f'Error: {e}', 'error')
         log.error("Error deleting dashboard for dashboard_id %s: %s", dashboard_id, e)
-    return redirect(url_for('dashboard_bp.dashboard_list'))
+    return redirect(url_for('embeded_dashboard.dashboard_list'))
 
 
 @dashboard_bp.route('/show/<dashboard_id>', methods=['GET'], endpoint='dashboard_show')

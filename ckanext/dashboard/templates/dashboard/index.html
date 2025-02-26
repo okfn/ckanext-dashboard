@@ -5,14 +5,14 @@
 {% block content %}
   <div class="dashboard-list-container">
     <h1>📊 Dashboard - List</h1>
-    <a href="{{ url_for('dashboard_bp.dashboard_new') }}">New</a> 
+    <a href="{{ url_for('embeded_dashboard.dashboard_new') }}">New</a> 
 
     {% if dashboards %}
       <ul class="dashboard-list">
         {% for dashboard in dashboards %}
           <li class="dashboard-item">
             <strong>{{ dashboard.title }}</strong><br>
-            <a href="{{ h.url_for('dashboard_bp.dashboard_show', dashboard_id=dashboard.dashboard_id) }}">View</a>
+            <a href="{{ h.url_for('embeded_dashboard.dashboard_show', dashboard_id=dashboard.dashboard_id) }}">View</a>
           </li>
         {% endfor %}
       </ul>

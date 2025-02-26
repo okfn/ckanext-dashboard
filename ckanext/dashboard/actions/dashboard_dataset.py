@@ -117,9 +117,7 @@ def dataset_dashboard_update(context, data_dict):
     """
     log.info("Executing dataset_dashboard_update")
 
-    dashboard_id = toolkit.get_or_bust('id')
-    if not dashboard_id:
-        raise ValueError("The 'id' parameter is required to update the dashboard.")
+    dashboard_id = toolkit.get_or_bust(data_dict, 'dashboard_id')
 
     session = model.Session
     dashboard = session.query(DatasetDashboard).filter_by(id=dashboard_id).first()
@@ -131,6 +129,10 @@ def dataset_dashboard_update(context, data_dict):
         dashboard.title = data_dict['title']
     if 'description' in data_dict:
         dashboard.description = data_dict['description']
+    if 'embeded_url' in data_dict:
+        dashboard.embeded_url = data_dict['embeded_url']
+    if 'report_url' in data_dict:
+        dashboard.report_url = data_dict['report_url']
 
     session.add(dashboard)
     session.commit()
@@ -141,7 +143,7 @@ def dataset_dashboard_update(context, data_dict):
         'title': dashboard.title,
         'description': dashboard.description,
         'embeded_url': dashboard.embeded_url,
-        'report_url': dashboard.report
+        'report_url': dashboard.report_url
     }
 
 
@@ -155,9 +157,7 @@ def dataset_dashboard_delete(context, data_dict):
     """
     log.info("Executing dataset_dashboard_delete")
 
-    dashboard_id = data_dict.get('id')
-    if not dashboard_id:
-        raise ValueError("The 'id' parameter is required to delete the dashboard.")
+    dashboard_id = toolkit.get_or_bust(data_dict, 'id')
 
     session = model.Session
     dashboard = session.query(DatasetDashboard).filter_by(id=dashboard_id).first()

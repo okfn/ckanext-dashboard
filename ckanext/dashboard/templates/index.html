@@ -1,13 +1,13 @@
 {% extends "base.html" %}
 {% block content %}
 <h1>Dashboard Configurations</h1>
-<a href="{{ h.url_for('dashboard_bp.dashboard_new') }}">Add new dashboard</a>
+<a href="{{ h.url_for('embeded_dashboard.dashboard_new') }}">Add new dashboard</a>
 <ul>
   {% for d in dashboards %}
     <li>
       Dataset: {{ d.package_id }} -
-      <a href="{{ h.url_for('dashboard_bp.dashboard_edit', dashboard_id=dashboard.id) }}">Edit</a>
-      <form action="{{ h.url_for('dashboard_bp.dashboard_delete', dashboard_id=dashboard.id) }}" method="POST">
+      <a href="{{ h.url_for('embeded_dashboard.dashboard_edit', dashboard_id=dashboard.id) }}">Edit</a>
+      <form action="{{ h.url_for('embeded_dashboard.dashboard_delete', dashboard_id=dashboard.id) }}" method="POST">
         <button type="submit">Delete</button>
       </form>
     </li>
