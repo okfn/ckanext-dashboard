@@ -6,24 +6,36 @@
 <div class="container mt-4">
   <h1 class="mb-4">Create a New Dashboard</h1>
   <form method="post">
-    <input type="hidden" name="package_id" value="{{ package_id }}">
+    <input type="hidden" name="package_id" value="{{ dashboard.package_id }}" required>
     <div class="mb-3">
-      <label for="title" class="form-label">Title</label>
-      <input type="text" name="title" id="title" class="form-control" placeholder="Enter dashboard title" required>
+    <label class="form-label">Title:</label>
+    <input type="text" name="title" value="{{ dashboard.title }}" required>
     </div>
-    <div class="mb-3">
-      <label for="description" class="form-label">Description</label>
-      <input type="text" name="description" id="description" class="form-control" placeholder="Enter dashboard description" required>
+
+    <div>
+    <label class="form-label">Description:</label>
+    <textarea name="description">{{ dashboard.description if dashboard else '' }}</textarea>
     </div>
-    <div class="mb-3">
-      <label for="embeded_url" class="form-label">Embeded URL</label>
-      <input type="url" name="embeded_url" id="embeded_url" class="form-control" placeholder="Enter embed URL">
+
+    <div>
+    <label class="form-label">Type Dashboard:</label>
+    <select name="dashboard_type" id="dashboard_type">
+        <option value="tableau" {% if dashboard and dashboard.dashboard_type == "tableau" %}selected{% endif %}>Tableau</option>
+        <option value="powerbi" {% if dashboard and dashboard.dashboard_type == "powerbi" %}selected{% endif %}>Power BI</option>
+    </select>
     </div>
-    <div class="mb-3">
-      <label for="report_url" class="form-label">Report URL</label>
-      <input type="url" name="report_url" id="report_url" class="form-control" placeholder="Enter report URL">
+
+    <div>
+    <label class="form-label">Embeded URL:</label>
+    <input type="url" name="embeded_url" value="{{ dashboard.embeded_url }}" required>
     </div>
-    <button type="submit" class="btn btn-primary">Create Dashboard</button>
-  </form>
+
+    <div>
+    <label class="form-label">Report URL:</label>
+    <input type="url" name="report_url" value="{{ dashboard.report_url }}">
+    </div>
+
+    <button type="submit">Save</button>
+</form>
 </div>
 {% endblock %}

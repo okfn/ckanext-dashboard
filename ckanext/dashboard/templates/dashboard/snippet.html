@@ -4,29 +4,7 @@
 {% endif %}
 
 <!-- Generic BI Visualization Component -->
-<div id="bi-viz">
-  {% if dashboard.type == "tableau" %}
-    <tableau-viz id="viz"
-      src="{{ dashboard.embeded_url }}"
-      toolbar="bottom"
-      hide-tabs>
-    </tableau-viz>
-  
-  {% elif dashboard.type == "powerbi" %}
-    <!-- Example Power BI iframe embed -->
-    <iframe width="100%" height="600"
-      src="{{ dashboard.embeded_url }}"
-      frameborder="0"
-      allowFullScreen="true">
-    </iframe>
-  {% else %}
-    <p>Unsupported BI tool.</p>
-  {% endif %}
-</div>
-
-<!-- Report link if available -->
-{% if dashboard.report_url %}
-  <div style="text-align:right; margin-top:10px;">
-    <a href="{{ dashboard.report_url }}" target="_blank">View full report</a>
-  </div>
-{% endif %}
+<tableau-viz id="tableauViz"       
+  src='https://public.tableau.com/views/Superstore_embedded_800x800/Overview'      
+  toolbar="bottom" hide-tabs>
+</tableau-viz>

@@ -77,6 +77,7 @@ def dataset_dashboard_create(context, data_dict):
 
     # Validate required fields
     package_id, title = toolkit.get_or_bust(data_dict, ['package_id', 'title'])
+    dashboard_type = data_dict.get('dashboard_type', 'tableau')
 
     session = model.Session
     # Extract and validate package_id
@@ -90,6 +91,7 @@ def dataset_dashboard_create(context, data_dict):
         package_id=package_id,
         title=data_dict.get('title'),
         description=data_dict.get('description', ''),
+        dashboard_type=dashboard_type,
         embeded_url=data_dict.get('embeded_url', ''),
         report_url=data_dict.get('report_url', ''),
     )
@@ -102,6 +104,7 @@ def dataset_dashboard_create(context, data_dict):
         'package_id': new_dashboard.package_id,
         'title': new_dashboard.title,
         'description': new_dashboard.description,
+        'dashboard_type': new_dashboard.dashboard_type,
         'embeded_url': new_dashboard.embeded_url,
         'report_url': new_dashboard.report_url,
     }
@@ -129,6 +132,8 @@ def dataset_dashboard_update(context, data_dict):
         dashboard.title = data_dict['title']
     if 'description' in data_dict:
         dashboard.description = data_dict['description']
+    if 'dashboard_type' in data_dict:
+        dashboard.dashboard_type = data_dict['dashboard_type']
     if 'embeded_url' in data_dict:
         dashboard.embeded_url = data_dict['embeded_url']
     if 'report_url' in data_dict:
@@ -142,6 +147,7 @@ def dataset_dashboard_update(context, data_dict):
         'package_id': dashboard.package_id,
         'title': dashboard.title,
         'description': dashboard.description,
+        'dashboard_type': dashboard.dashboard_type,
         'embeded_url': dashboard.embeded_url,
         'report_url': dashboard.report_url
     }

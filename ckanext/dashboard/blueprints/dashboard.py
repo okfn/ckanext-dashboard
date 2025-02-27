@@ -53,7 +53,7 @@ def dashboard_new():
             h.flash_error(f'Error: {e}', 'error')
             log.error("Error creating dashboard: %s", e)
         return redirect(url_for('embeded_dashboard.dashboard_list'))
-    return render('dashboard/new.html')
+    return render('dashboard/new.html', extra_vars={'dashboard': None})
 
 
 @dashboard_bp.route('/edit/<dashboard_id>', methods=['GET', 'POST'], endpoint='dashboard_edit')

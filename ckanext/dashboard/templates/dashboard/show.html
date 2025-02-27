@@ -5,36 +5,34 @@
 {% endblock %}
 
 {% block content %}
-<div class="dashboard-container">
-    {% if dashboard %}
-        <h1>{{ dashboard.title }}</h1>
+<!-- Load Tableau API only if needed -->
+{% if dashboard.type == "tableau" %}
+  <script type="module" src="https://public.tableau.com/javascripts/api/tableau.embedding.3.latest.min.js"></script>
+{% endif %}
 
-        <p><strong>Description:</strong> {{ dashboard.description or "No description provided." }}</p>
-        <p><strong>Embedded URL:</strong> 
-            {% if dashboard.embeded_url %}
-                <a href="{{ dashboard.embeded_url }}" target="_blank">{{ dashboard.embeded_url }}</a>
-            {% else %}
-                N/A
-            {% endif %}
-        </p>
-        <p><strong>Report URL:</strong> 
-            {% if dashboard.report_url %}
-                <a href="{{ dashboard.report_url }}" target="_blank">{{ dashboard.report_url }}</a>
-            {% else %}
-                N/A
-            {% endif %}
-        </p>
+<!-- Generic BI Visualization Component -->
+<tableau-viz id="tableauViz"       
+  src='https://public.tableau.com/views/Superstore_embedded_800x800/Overview'      
+  toolbar="bottom" hide-tabs>
+</tableau-viz>
+{{ super() }}
+  {% if embeded_url %}
+    <h3>Dashboard</h3>
+    <iframe
+      title="ckan_test"
+      width="100%"
+      height="541.25"
+      src="{{embeded_url}}"
+      frameborder="0"
+      allowFullScreen="true">
+    </iframe>
+    <div style="display: flex; margin-bottom: 30px;">
+      {% if report_url %}
+        <a href="{{ report_url }}" style="margin-left: auto;" target="_blank">See this report in Power BI site...</a>
+      {% else %}
+        <i style="margin-left: auto;">No link to Power BI site has been added by the admin.</i>
+      {% endif %}
+    </div>
+  {% endif %}
 
-        <div class="dashboard-actions">
-            <a class="btn btn-primary" href="{{ h.url_for('embeded_dashboard.dashboard_edit', dashboard_id=dashboard_id) }}">Edit</a>
-            <form action="{{ h.url_for('embeded_dashboard.dashboard_delete', dashboard_id=dashboard_id) }}" method="POST" style="display:inline;">
-                <button class="btn btn-danger" type="submit" onclick="return confirm('Are you sure you want to delete this dashboard?');">Delete</button>
-            </form>
-        </div>
-
-    {% else %}
-        <h2>Dashboard Not Found</h2>
-        <p>The dashboard you're trying to view does not exist.</p>
-    {% endif %}
-</div>
 {% endblock %}

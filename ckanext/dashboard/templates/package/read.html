@@ -2,11 +2,38 @@
 
 {% block package_description %}
   {{ super() }}
-  
-  {% set dashboard = h.get_dataset_dashboards(package['id']) %}
-  
-  {% if dashboard and dashboard.embeded_url %}
+  {% set dashboard = h.get_dataset_dashboard(package.id) %}
+{% if dashboard %}
     <h3>Dashboard</h3>
-    {% include "dashboard/snippet.html" %}
-  {% endif %}
+
+    {% if dashboard.dashboard_type == "tableau" %}
+        <script type="module" src="https://public.tableau.com/javascripts/api/tableau.embedding.3.latest.min.js"></script>
+        <tableau-viz 
+          id="tableauViz"
+          src="{{ dashboard.embeded_url }}" 
+          toolbar="bottom" 
+          hide-tabs>
+        </tableau-viz>
+    {% elif dashboard.dashboard_type == "powerbi" %}
+        <iframe 
+          title="Power BI Report"
+          width="100%"
+          height="541.25"
+          src="{{ dashboard.embeded_url }}"
+          frameborder="0"
+          allowFullScreen="true">
+        </iframe>
+    {% else %}
+        <p>No se ha especificado un tipo de dashboard.</p>
+    {% endif %}
+    
+    <div style="display: flex; margin-bottom: 30px;">
+      {% if dashboard.report_url %}
+        <a href="{{ dashboard.report_url }}" style="margin-left: auto;" target="_blank">Ver reporte completo</a>
+      {% else %}
+        <i style="margin-left: auto;">No hay enlace a un reporte externo.</i>
+      {% endif %}
+    </div>
+{% endif %}
+
 {% endblock %}
