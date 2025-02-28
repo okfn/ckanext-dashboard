@@ -15,13 +15,19 @@ log = logging.getLogger(__name__)
 dashboard_bp = Blueprint('embeded_dashboard', __name__)
 
 
-@dashboard_bp.route('/dataset/dashboard/<package_id>/new', methods=['GET', 'POST'], endpoint='new')
+@dashboard_bp.route('/dataset/dashboard/<package_id>', methods=['GET', 'POST'], endpoint='new')
 @require_sysadmin_user
 def dashboard_new(package_id):
     """Create a new dashboard (view and logic for creation)"""
     log.debug("Creating a new dashboard")
     # TODO: try-catch
     pkg_dict = toolkit.get_action('package_show')({}, {'id': package_id})
+
+    try:
+        dashboard_dict = toolkit.get_action('dataset_dashboard_show')({}, {'pkg_id': package_id})
+    except toolkit.ObjectNotFound:
+        dashboard_dict = {}
+
     if request.method == 'POST':
         data = {
             'package_id': pkg_dict['id'],
@@ -34,43 +40,19 @@ def dashboard_new(package_id):
         }
         context = {'model': model, 'user': p.toolkit.c.user}
         try:
-            p.toolkit.get_action('dataset_dashboard_create')(context, data)
-            h.flash_success('Dashboard created successfully', 'success')
-            log.info("Dashboard created")
+            if not dashboard_dict:
+                p.toolkit.get_action('dataset_dashboard_create')(context, data)
+                h.flash_success('Dashboard created successfully', 'success')
+                log.info("Dashboard created")
+            else:
+                toolkit.get_action('dataset_dashboard_update')(context, data)
+                h.flash_success('Dashboard updated successfully', 'success')
+                log.info("Dashboard updated")
         except Exception as e:
             h.flash_error(f'Error: {e}', 'error')
             log.error("Error creating dashboard: %s", e)
         return redirect(url_for('dataset.read', id=pkg_dict['id']))
-    return toolkit.render('dashboard/new.html', {"pkg_dict": pkg_dict})
-
-
-@dashboard_bp.route('/edit/<dashboard_id>', methods=['GET', 'POST'], endpoint='dashboard_edit')
-@require_sysadmin_user
-def dashboard_edit(dashboard_id):
-    """Edit the configuration of a dashboard using its unique ID"""
-    log.debug("Editing dashboard for dashboard_id: %s", dashboard_id)
-    context = {'model': model, 'user': p.toolkit.c.user}
-
-    if request.method == 'POST':
-        data = {
-            'dashboard_id': dashboard_id,
-            'embeded_url': request.form.get('embeded_url'),
-            'report_url': request.form.get('report_url')
-        }
-        try:
-            p.toolkit.get_action('dataset_dashboard_update')(context, data)
-            h.flash_success('Dashboard updated successfully', 'success')
-            log.info("Dashboard updated for dashboard_id: %s", dashboard_id)
-        except Exception as e:
-            h.flash_error(f'Error: {e}', 'error')
-            log.error("Error updating dashboard for dashboard_id %s: %s", dashboard_id, e)
-        return redirect(url_for('embeded_dashboard.dashboard_list'))
-    else:
-        try:
-            dashboard = p.toolkit.get_action('dataset_dashboard_show')(context, {'id': dashboard_id})
-        except NotFound:
-            dashboard = None
-        return render('dashboard/edit.html', extra_vars={'dashboard': dashboard, 'dashboard_id': dashboard_id})
+    return toolkit.render('dashboard/new.html', {"pkg_dict": pkg_dict, "dashboard": dashboard_dict})
 
 
 @dashboard_bp.route('/delete/<dashboard_id>', methods=['POST'], endpoint='dashboard_delete')

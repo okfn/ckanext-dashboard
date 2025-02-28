@@ -4,25 +4,29 @@
 
 {% block primary_content_inner %}
 <div class="container mt-4">
-  <h1 class="mb-4">Create a New Dashboard</h1>
+  <h1 class="mb-4">Dashboard form</h1>
   <form method="post">
     <div class="mb-3">
-      <label for="title" class="form-label">Title</label>
-      <input type="text" name="title" id="title" class="form-control" placeholder="Enter dashboard title" required>
+      <label for="title" class="form-label">* Title</label>
+      <input type="text" name="title" id="title" class="form-control" placeholder="Enter dashboard title" {% if dashboard.title %}value="{{dashboard.title}}"{% endif %} required>
     </div>
     <div class="mb-3">
       <label for="description" class="form-label">Description</label>
-      <input type="text" name="description" id="description" class="form-control" placeholder="Enter dashboard description" required>
+      <input type="text" name="description" id="description" class="form-control" placeholder="Enter dashboard description" {% if dashboard.description %}value="{{dashboard.description}}"{% endif %}>
     </div>
     <div class="mb-3">
-      <label for="embeded_url" class="form-label">Embeded URL</label>
-      <input type="url" name="embeded_url" id="embeded_url" class="form-control" placeholder="Enter embed URL">
+      <label for="embeded_url" class="form-label">* Embeded URL</label>
+      <input type="url" name="embeded_url" id="embeded_url" class="form-control" placeholder="Enter embed URL" {% if dashboard.embeded_url %}value="{{dashboard.embeded_url}}"{% endif %} required>
     </div>
     <div class="mb-3">
       <label for="report_url" class="form-label">Report URL</label>
-      <input type="url" name="report_url" id="report_url" class="form-control" placeholder="Enter report URL">
+      <input type="url" name="report_url" id="report_url" class="form-control" placeholder="Enter report URL" {% if dashboard.report_url %}value="{{dashboard.report_url}}"{% endif %}>
     </div>
-    <button type="submit" class="btn btn-primary">Create Dashboard</button>
+    {% if dashboard %}
+      <button type="submit" class="btn btn-primary">Update</button>
+    {% else %}
+      <button type="submit" class="btn btn-primary">Create</button>
+    {% endif %}
   </form>
 </div>
 {% endblock %}

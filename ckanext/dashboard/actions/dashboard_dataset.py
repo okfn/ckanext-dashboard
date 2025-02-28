@@ -44,10 +44,10 @@ def dataset_dashboard_show(context, data_dict):
     """
     log.info("Executing dataset_dashboard_show")
 
-    dashboard_id = toolkit.get_or_bust(data_dict, 'id')
+    pkg_id = toolkit.get_or_bust(data_dict, 'pkg_id')
 
     session = model.Session
-    dashboard = session.query(DatasetDashboard).filter_by(id=dashboard_id).first()
+    dashboard = session.query(DatasetDashboard).filter_by(package_id=pkg_id).first()
 
     if not dashboard:
         raise ValueError("Dashboard not found.")
@@ -109,18 +109,18 @@ def dataset_dashboard_update(context, data_dict):
     Updates a specific dashboard.
 
     :param context: Dictionary with action context information.
-    :param data_dict: Dictionary with input data, must include the dashboard ID.
+    :param data_dict: Dictionary with input data, must include the package ID.
     :return: Dictionary with the updated dashboard details.
     """
     log.info("Executing dataset_dashboard_update")
 
-    dashboard_id = toolkit.get_or_bust(data_dict, 'dashboard_id')
+    package_id = toolkit.get_or_bust(data_dict, 'package_id')
 
     session = model.Session
-    dashboard = session.query(DatasetDashboard).filter_by(id=dashboard_id).first()
+    dashboard = session.query(DatasetDashboard).filter_by(package_id=package_id).first()
 
     if not dashboard:
-        raise ValueError("Dashboard not found.")
+        raise toolkit.ObjectNotFound("Dashboard not found.")
 
     if 'title' in data_dict:
         dashboard.title = data_dict['title']
@@ -140,6 +140,7 @@ def dataset_dashboard_update(context, data_dict):
         'package_id': dashboard.package_id,
         'title': dashboard.title,
         'description': dashboard.description,
+        'dashboard_type': dashboard.dashboard_type,
         'embeded_url': dashboard.embeded_url,
         'report_url': dashboard.report_url
     }
