@@ -15,9 +15,9 @@ log = logging.getLogger(__name__)
 dashboard_bp = Blueprint('embeded_dashboard', __name__)
 
 
-@dashboard_bp.route('/dataset/dashboard/<package_id>', methods=['GET', 'POST'], endpoint='new')
+@dashboard_bp.route('/dataset/dashboard/<package_id>', methods=['GET', 'POST'], endpoint='create')
 @require_sysadmin_user
-def dashboard_new(package_id):
+def dashboard_create(package_id):
     """Create a new dashboard (view and logic for creation)"""
     log.debug("Creating a new dashboard")
     # TODO: try-catch
