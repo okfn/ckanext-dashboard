@@ -3,7 +3,7 @@ from ckan import model
 import ckan.plugins as p
 from flask import Blueprint, request, redirect, url_for
 from ckan.logic import NotFound
-from ckan.plugins.toolkit import render
+from ckan.plugins import toolkit
 from ckan.lib.helpers import helper_functions as h
 
 # Import or define the decorator to restrict access to sysadmins.
@@ -15,30 +15,16 @@ log = logging.getLogger(__name__)
 dashboard_bp = Blueprint('embeded_dashboard', __name__, url_prefix='/embeded-dashboard')
 
 
-@dashboard_bp.route('/', methods=['GET'], endpoint='dashboard_list')
+@dashboard_bp.route('/dataset/dashboard/<package_id>/new', methods=['GET', 'POST'], endpoint='new')
 @require_sysadmin_user
-def index():
-    """List dashboard configurations"""
-    log.debug("Listing dashboard configurations")
-    context = {'model': model, 'user': p.toolkit.c.user}
-    try:
-        dashboards = p.toolkit.get_action('dataset_dashboard_list')(context, {})
-    except Exception as e:
-        log.error("Failed to load dashboards: %s", e)
-        h.flash_error("An error occurred while retrieving the dashboards.", "error")
-        dashboards = []
-        h.flash_error(f'Error: {e}', 'error')
-    return render('dashboard/index.html', extra_vars={'dashboards': dashboards})
-
-
-@dashboard_bp.route('/new', methods=['GET', 'POST'], endpoint='dashboard_new')
-@require_sysadmin_user
-def dashboard_new():
+def dashboard_new(package_id):
     """Create a new dashboard (view and logic for creation)"""
     log.debug("Creating a new dashboard")
+    # TODO: try-catch
+    pkg_dict = toolkit.get_action('package_show')({}, {'id': package_id})
     if request.method == 'POST':
         data = {
-            'package_id': request.form.get('package_id'),
+            'package_id': pkg_dict['id'],
             'title': request.form.get('title'),
             'description': request.form.get('description'),
             'embeded_url': request.form.get('embeded_url'),
@@ -52,8 +38,8 @@ def dashboard_new():
         except Exception as e:
             h.flash_error(f'Error: {e}', 'error')
             log.error("Error creating dashboard: %s", e)
-        return redirect(url_for('embeded_dashboard.dashboard_list'))
-    return render('dashboard/new.html')
+        return redirect(url_for('dataset.read', id=pkg_dict['id']))
+    return toolkit.render('dashboard/new.html', {"pkg_dict": pkg_dict})
 
 
 @dashboard_bp.route('/edit/<dashboard_id>', methods=['GET', 'POST'], endpoint='dashboard_edit')

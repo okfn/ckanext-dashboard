@@ -1,12 +1,11 @@
-{% extends "admin/base.html" %}
+{% extends "package/read_base.html" %}
 
 {% block title %}New Dashboard{% endblock %}
 
-{% block content %}
+{% block primary_content_inner %}
 <div class="container mt-4">
   <h1 class="mb-4">Create a New Dashboard</h1>
   <form method="post">
-    <input type="hidden" name="package_id" value="{{ package_id }}">
     <div class="mb-3">
       <label for="title" class="form-label">Title</label>
       <input type="text" name="title" id="title" class="form-control" placeholder="Enter dashboard title" required>
