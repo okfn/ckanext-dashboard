@@ -1,10 +1,8 @@
-{% extends "package/read.html" %}
+{% ckan_extends %}
 
 {% block package_description %}
   {{ super() }}
-  
-  {% set dashboard = h.get_dataset_dashboards(package['id']) %}
-  
+  {% set dashboard = h.get_dataset_dashboard(pkg_dict.id) %}
   {% if dashboard and dashboard.embeded_url %}
     <h3>Dashboard</h3>
     {% include "dashboard/snippet.html" %}
