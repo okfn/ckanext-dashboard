@@ -1,18 +1,18 @@
 <!-- Load Tableau API only if needed -->
-{% if dashboard.type == "tableau" %}
+{% if dashboard.dashboard_type == "tableau" %}
   <script type="module" src="https://public.tableau.com/javascripts/api/tableau.embedding.3.latest.min.js"></script>
 {% endif %}
 
 <!-- Generic BI Visualization Component -->
 <div id="bi-viz">
-  {% if dashboard.type == "tableau" %}
+  {% if dashboard.dashboard_type == "tableau" %}
     <tableau-viz id="viz"
       src="{{ dashboard.embeded_url }}"
       toolbar="bottom"
       hide-tabs>
     </tableau-viz>
   
-  {% elif dashboard.type == "powerbi" %}
+  {% elif dashboard.dashboard_type == "powerbi" %}
     <!-- Example Power BI iframe embed -->
     <iframe width="100%" height="600"
       src="{{ dashboard.embeded_url }}"

@@ -76,24 +76,20 @@ def dataset_dashboard_create(context, data_dict):
     log.info("Executing dataset_dashboard_create")
 
     # Validate required fields
-    package_id, title = toolkit.get_or_bust(data_dict, ['package_id', 'title'])
-
-    session = model.Session
-    # Extract and validate package_id
-
-    if not package_id:
-        # Generate a new UUID if package_id is empty
-        package_id = str(uuid.uuid4())
-        log.info(f"Generated new package_id: {package_id}")
+    package_id, title, dashboard_type = toolkit.get_or_bust(
+            data_dict, ['package_id', 'title', 'dashboard_type']
+            )
 
     new_dashboard = DatasetDashboard(
         package_id=package_id,
         title=data_dict.get('title'),
         description=data_dict.get('description', ''),
+        dashboard_type=dashboard_type,
         embeded_url=data_dict.get('embeded_url', ''),
         report_url=data_dict.get('report_url', ''),
     )
 
+    session = model.Session
     session.add(new_dashboard)
     session.commit()
 
@@ -102,6 +98,7 @@ def dataset_dashboard_create(context, data_dict):
         'package_id': new_dashboard.package_id,
         'title': new_dashboard.title,
         'description': new_dashboard.description,
+        'dashboard_type': dashboard_type,
         'embeded_url': new_dashboard.embeded_url,
         'report_url': new_dashboard.report_url,
     }
@@ -129,6 +126,7 @@ def dataset_dashboard_update(context, data_dict):
         dashboard.title = data_dict['title']
     if 'description' in data_dict:
         dashboard.description = data_dict['description']
+    # TODO: Handle dashboard_type
     if 'embeded_url' in data_dict:
         dashboard.embeded_url = data_dict['embeded_url']
     if 'report_url' in data_dict:

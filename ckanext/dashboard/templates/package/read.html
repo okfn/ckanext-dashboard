@@ -5,6 +5,6 @@
   {% set dashboard = h.get_dataset_dashboard(pkg_dict.id) %}
   {% if dashboard and dashboard.embeded_url %}
     <h3>Dashboard</h3>
-    {% include "dashboard/snippet.html" %}
+    {% snippet "dashboard/snippet.html", dashboard=dashboard %}
   {% endif %}
 {% endblock %}

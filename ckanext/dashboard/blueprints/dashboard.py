@@ -12,7 +12,7 @@ from ckanext.dashboard.decorators import require_sysadmin_user
 
 log = logging.getLogger(__name__)
 
-dashboard_bp = Blueprint('embeded_dashboard', __name__, url_prefix='/embeded-dashboard')
+dashboard_bp = Blueprint('embeded_dashboard', __name__)
 
 
 @dashboard_bp.route('/dataset/dashboard/<package_id>/new', methods=['GET', 'POST'], endpoint='new')
@@ -27,6 +27,8 @@ def dashboard_new(package_id):
             'package_id': pkg_dict['id'],
             'title': request.form.get('title'),
             'description': request.form.get('description'),
+            # TODO: Add field in form
+            'dashboard_type': 'tableau',
             'embeded_url': request.form.get('embeded_url'),
             'report_url': request.form.get('report_url')
         }
