@@ -23,6 +23,7 @@
       <input type="url" name="report_url" id="report_url" class="form-control" placeholder="Enter report URL" {% if dashboard.report_url %}value="{{dashboard.report_url}}"{% endif %}>
     </div>
     {% if dashboard %}
+      <!-- TODO: Add a delete button and rename this template to dashboard/form.html -->
       <button type="submit" class="btn btn-primary">Update</button>
     {% else %}
       <button type="submit" class="btn btn-primary">Create</button>
