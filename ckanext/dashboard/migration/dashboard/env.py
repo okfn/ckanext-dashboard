@@ -59,7 +59,6 @@ def run_migrations_online():
 
     """
     config_ini_section = config.get_section(config.config_ini_section)
-    print("Config Section:", config_ini_section)
     connectable = engine_from_config(
         config_ini_section,
         prefix="sqlalchemy.",
