@@ -109,7 +109,6 @@ def dashboard_show(dashboard_id):
     context = {'model': model, 'user': p.toolkit.c.user}
     try:
         dashboard = p.toolkit.get_action('dataset_dashboard_show')(context, {'id': dashboard_id})
-        h.flash_success('Dashboard configuration deleted', 'success')
     except NotFound:
         dashboard = None
     return render('dashboard/show.html', extra_vars={'dashboard': dashboard, 'dashboard_id': dashboard_id})
