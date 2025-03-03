@@ -20,13 +20,13 @@
       allowFullScreen="true">
     </iframe>
   {% else %}
-    <p>Unsupported BI tool.</p>
+    <p>{{ _("Unsupported BI tool. Please contact the administrator.") }}</p>
   {% endif %}
 </div>
 
 <!-- Report link if available -->
 {% if dashboard.report_url %}
   <div style="text-align:right; margin-top:10px;">
-    <a href="{{ dashboard.report_url }}" target="_blank">View full report</a>
+    <a href="{{ dashboard.report_url }}" target="_blank">{{ _("View full report") }}</a>
   </div>
 {% endif %}

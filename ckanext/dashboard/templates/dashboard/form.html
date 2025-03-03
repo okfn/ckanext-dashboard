@@ -1,7 +1,11 @@
 {% extends "package/read_base.html" %}
 
 {% block title %}
-  {% if dashboard %}Edit Dashboard{% else %}New Dashboard{% endif %}
+  {% if dashboard %}
+    {{ _("Edit Dashboard") }}
+  {% else %}
+    {{ _("New Dashboard") }}
+  {% endif %}
 {% endblock %}
 
 {% block primary_content_inner %}
@@ -11,34 +15,34 @@
   <!-- Formulario para crear/actualizar -->
   <form method="post">
     <div class="mb-3">
-      <label for="title" class="form-label">* Title</label>
+      <label for="title" class="form-label">{{ _("* Title") }}</label>
       <input type="text" name="title" id="title" class="form-control"
              placeholder="Enter dashboard title"
              {% if dashboard.title %}value="{{ dashboard.title }}"{% endif %}
              required>
     </div>
     <div class="mb-3">
-      <label for="description" class="form-label">Description</label>
+      <label for="description" class="form-label">{{ _("Description") }}</label>
       <input type="text" name="description" id="description" class="form-control"
              placeholder="Enter dashboard description"
              {% if dashboard.description %}value="{{ dashboard.description }}"{% endif %}>
     </div>
     <div class="mb-3">
-      <label for="dashboard_type" class="form-label">Type of Dashboard</label>
+      <label for="dashboard_type" class="form-label">{{ _("Type of Dashboard") }}</label>
       <select name="dashboard_type" id="dashboard_type" class="form-control">
         <option value="tableau" {% if dashboard.dashboard_type == 'tableau' %}selected{% endif %}>Tableau</option>
         <option value="powerbi" {% if dashboard.dashboard_type == 'powerbi' %}selected{% endif %}>PowerBI</option>
       </select>
     </div>
     <div class="mb-3">
-      <label for="embeded_url" class="form-label">* Embeded URL</label>
+      <label for="embeded_url" class="form-label">{{ _("* Embeded URL") }}</label>
       <input type="url" name="embeded_url" id="embeded_url" class="form-control"
              placeholder="Enter embed URL"
              {% if dashboard.embeded_url %}value="{{ dashboard.embeded_url }}"{% endif %}
              required>
     </div>
     <div class="mb-3">
-      <label for="report_url" class="form-label">Report URL</label>
+      <label for="report_url" class="form-label">{{ _("Report URL") }}</label>
       <input type="url" name="report_url" id="report_url" class="form-control"
              placeholder="Enter report URL"
              {% if dashboard.report_url %}value="{{ dashboard.report_url }}"{% endif %}>
@@ -46,24 +50,21 @@
 
     {% if dashboard %}
       <!-- Si existe el dashboard, el botón es de actualización -->
-      <button type="submit" class="btn btn-primary">Update</button>
+      <button type="submit" class="btn btn-primary">{{ _("Update") }}</button>
     {% else %}
       <!-- Si no existe, el botón es de creación -->
-      <button type="submit" class="btn btn-primary">Create</button>
+      <button type="submit" class="btn btn-primary">{{ _("Create") }}</button>
     {% endif %}
   </form>
 
   {% if dashboard %}
     <!-- Formulario separado para eliminar el dashboard -->
-    <form action="{{ url_for('embeded_dashboard.dashboard_delete',
-                         package_id=pkg_dict['id'],
-                         dashboard_id=dashboard.id) }}"
+    <form action="{{ url_for('embeded_dashboard.dashboard_delete', package_id=pkg_dict['id'], dashboard_id=dashboard.id) }}"
           method="post"
           onsubmit="return confirm('¿Está seguro de que desea eliminar este dashboard?');"
           style="margin-top: 15px;">
-        <button type="submit" class="btn btn-danger">Delete Dashboard</button>
+      <button type="submit" class="btn btn-danger">{{ _("Delete Dashboard") }}</button>
     </form>
-
   {% endif %}
 </div>
 {% endblock %}
