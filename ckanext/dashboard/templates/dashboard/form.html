@@ -1,6 +1,8 @@
 {% extends "package/read_base.html" %}
 
-{% block title %}New Dashboard{% endblock %}
+{% block title %}
+  {% if dashboard %}Edit Dashboard{% else %}New Dashboard{% endif %}
+{% endblock %}
 
 {% block primary_content_inner %}
 <div class="container mt-4">
@@ -15,6 +17,13 @@
       <input type="text" name="description" id="description" class="form-control" placeholder="Enter dashboard description" {% if dashboard.description %}value="{{dashboard.description}}"{% endif %}>
     </div>
     <div class="mb-3">
+      <label for="dashboard_type" class="form-label">Type of Dashboard</label>
+      <select name="dashboard_type" id="dashboard_type" class="form-control">
+        <option value="tableau" {% if dashboard.dashboard_type == 'tableau' %}selected{% endif %}>Tableau</option>
+        <option value="powerbi" {% if dashboard.dashboard_type == 'powerbi' %}selected{% endif %}>PowerBI</option>
+      </select>
+    </div>
+    <div class="mb-3">
       <label for="embeded_url" class="form-label">* Embeded URL</label>
       <input type="url" name="embeded_url" id="embeded_url" class="form-control" placeholder="Enter embed URL" {% if dashboard.embeded_url %}value="{{dashboard.embeded_url}}"{% endif %} required>
     </div>
@@ -23,7 +32,11 @@
       <input type="url" name="report_url" id="report_url" class="form-control" placeholder="Enter report URL" {% if dashboard.report_url %}value="{{dashboard.report_url}}"{% endif %}>
     </div>
     {% if dashboard %}
-      <!-- TODO: Add a delete button and rename this template to dashboard/form.html -->
+    <form action="{{ url_for('embeded_dashboard.dashboard_delete', dashboard_id=dashboard.id) }}" method="post" onsubmit="return confirm('¿Está seguro de que desea eliminar este dashboard?');" style="margin-top: 15px;">
+      <button type="submit" class="btn btn-danger">Delete Dashboard</button>
+    </form>
+    {% endif %}
+    {% if dashboard %}
       <button type="submit" class="btn btn-primary">Update</button>
     {% else %}
       <button type="submit" class="btn btn-primary">Create</button>
