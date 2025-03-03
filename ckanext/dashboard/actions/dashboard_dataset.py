@@ -126,7 +126,8 @@ def dataset_dashboard_update(context, data_dict):
         dashboard.title = data_dict['title']
     if 'description' in data_dict:
         dashboard.description = data_dict['description']
-    # TODO: Handle dashboard_type
+    if 'dashboard_type' in data_dict:
+        dashboard.dashboard_type = data_dict['dashboard_type']
     if 'embeded_url' in data_dict:
         dashboard.embeded_url = data_dict['embeded_url']
     if 'report_url' in data_dict:

@@ -20,12 +20,16 @@ dashboard_bp = Blueprint('embeded_dashboard', __name__)
 def dashboard_create(package_id):
     """Create a new dashboard (view and logic for creation)"""
     log.debug("Creating a new dashboard")
-    # TODO: try-catch
-    pkg_dict = toolkit.get_action('package_show')({}, {'id': package_id})
+    try:
+        pkg_dict = toolkit.get_action('package_show')({}, {'id': package_id})
+    except toolkit.ObjectNotFound:
+        h.flash_error('El dataset no existe.', 'error')
+        return redirect(url_for('package.read', id=package_id))
 
+    # Se capturan ambos tipos de excepciones: ObjectNotFound y ValueError
     try:
         dashboard_dict = toolkit.get_action('dataset_dashboard_show')({}, {'pkg_id': package_id})
-    except toolkit.ObjectNotFound:
+    except (toolkit.ObjectNotFound, ValueError):
         dashboard_dict = {}
 
     if request.method == 'POST':
@@ -33,8 +37,7 @@ def dashboard_create(package_id):
             'package_id': pkg_dict['id'],
             'title': request.form.get('title'),
             'description': request.form.get('description'),
-            # TODO: Add field in form
-            'dashboard_type': 'tableau',
+            'dashboard_type': request.form.get('dashboard_type', 'tableau'),
             'embeded_url': request.form.get('embeded_url'),
             'report_url': request.form.get('report_url')
         }
@@ -52,12 +55,12 @@ def dashboard_create(package_id):
             h.flash_error(f'Error: {e}', 'error')
             log.error("Error creating dashboard: %s", e)
         return redirect(url_for('dataset.read', id=pkg_dict['id']))
-    return toolkit.render('dashboard/new.html', {"pkg_dict": pkg_dict, "dashboard": dashboard_dict})
+    return toolkit.render('dashboard/form.html', {"pkg_dict": pkg_dict, "dashboard": dashboard_dict})
 
 
-@dashboard_bp.route('/delete/<dashboard_id>', methods=['POST'], endpoint='dashboard_delete')
+@dashboard_bp.route('/delete/<package_id>/<dashboard_id>', methods=['POST'], endpoint='dashboard_delete')
 @require_sysadmin_user
-def dashboard_delete(dashboard_id):
+def dashboard_delete(package_id, dashboard_id):
     """Delete the configuration of a dashboard using its unique ID"""
     log.debug("Deleting dashboard for dashboard_id: %s", dashboard_id)
     context = {'model': model, 'user': p.toolkit.c.user}
@@ -68,7 +71,7 @@ def dashboard_delete(dashboard_id):
     except Exception as e:
         h.flash_error(f'Error: {e}', 'error')
         log.error("Error deleting dashboard for dashboard_id %s: %s", dashboard_id, e)
-    return redirect(url_for('embeded_dashboard.dashboard_list'))
+    return redirect(url_for('dataset.read', id=package_id))
 
 
 @dashboard_bp.route('/show/<dashboard_id>', methods=['GET'], endpoint='dashboard_show')
@@ -81,4 +84,4 @@ def dashboard_show(dashboard_id):
         dashboard = p.toolkit.get_action('dataset_dashboard_show')(context, {'id': dashboard_id})
     except NotFound:
         dashboard = None
-    return render('dashboard/show.html', extra_vars={'dashboard': dashboard, 'dashboard_id': dashboard_id})
+    return toolkit.render('dashboard/show.html', extra_vars={'dashboard': dashboard, 'dashboard_id': dashboard_id})
