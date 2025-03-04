@@ -4,11 +4,3 @@
     {{ super() }}
     {% asset 'dashboard/dashboard-css' %}
 {% endblock %}
-
-{% block content_primary_nav %}
-  {{ super() }}
-
-  {# Los endpoints que requieren package_id se muestran en contextos específicos y no en la navegación global #}
-{% endblock %}
-
-
