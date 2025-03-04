@@ -14,8 +14,6 @@ class DatasetDashboard(Base):
 
     id = Column(Integer, primary_key=True)
     package_id = Column(UuidType, nullable=False, unique=True)
-    title = Column(String(200), nullable=False)
-    description = Column(String(500))
     dashboard_type = Column(String(20))
     embeded_url = Column(String(200))
     report_url = Column(String(200))
@@ -24,8 +22,6 @@ class DatasetDashboard(Base):
         return {
             'id': self.id,
             'package_id': str(self.package_id),
-            'title': self.title,
-            'description': self.description,
             'dashboard_type': self.dashboard_type,
             'embeded_url': self.embeded_url,
             'report_url': self.report_url

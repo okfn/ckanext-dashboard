@@ -28,10 +28,6 @@ msgstr "Editar Dashboard"
 msgid "New Dashboard"
 msgstr "Nuevo Dashboard"
 
-#: ckanext/dashboard/templates/dashboard/form.html:13
-msgid "Dashboard form"
-msgstr "Formulario Dashboard"
-
 #: ckanext/dashboard/templates/dashboard/form.html:18
 msgid "* Title"
 msgstr "* Título"
@@ -112,4 +108,7 @@ msgstr "Ver reporte completo"
 #: ckanext/dashboard/templates/package/read_base.html:6
 msgid "Dashboard"
 msgstr "Dashboard"
+
+#~ msgid "Dashboard form"
+#~ msgstr "Formulario Dashboard"
 

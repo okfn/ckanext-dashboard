@@ -23,8 +23,6 @@ def dataset_dashboard_list(context, data_dict):
     for dash in dashboards:
         result.append({
             'dashboard_id': dash.id,
-            'title': dash.title,
-            'description': dash.description,
             'package_id': dash.package_id,
             'embeded_url': dash.embeded_url,
             'report_url': dash.report_url,
@@ -55,8 +53,6 @@ def dataset_dashboard_show(context, data_dict):
     return {
         'id': dashboard.id,
         'package_id': dashboard.package_id,
-        'title': dashboard.title,
-        'description': dashboard.description,
         'embeded_url': dashboard.embeded_url,
         'report_url': dashboard.report_url
     }
@@ -66,8 +62,8 @@ def dataset_dashboard_create(context, data_dict):
     """
     Creates a new dashboard for a dataset.
 
-    Expected keys in `data_dict` include 'package_id' and 'title'.
-    'description' is optional, but you can add other fields as needed.
+    Expected keys in `data_dict` include 'package_id' and 'dashboard_type',
+    ut you can add other fields as needed.
 
     :param context: Dictionary with action context information.
     :param data_dict: Dictionary with input data for creating the dashboard.
@@ -76,14 +72,12 @@ def dataset_dashboard_create(context, data_dict):
     log.info("Executing dataset_dashboard_create")
 
     # Validate required fields
-    package_id, title, dashboard_type = toolkit.get_or_bust(
-            data_dict, ['package_id', 'title', 'dashboard_type']
+    package_id, dashboard_type = toolkit.get_or_bust(
+            data_dict, ['package_id', 'dashboard_type']
             )
 
     new_dashboard = DatasetDashboard(
         package_id=package_id,
-        title=data_dict.get('title'),
-        description=data_dict.get('description', ''),
         dashboard_type=dashboard_type,
         embeded_url=data_dict.get('embeded_url', ''),
         report_url=data_dict.get('report_url', ''),
@@ -96,8 +90,6 @@ def dataset_dashboard_create(context, data_dict):
     return {
         'id': new_dashboard.id,
         'package_id': new_dashboard.package_id,
-        'title': new_dashboard.title,
-        'description': new_dashboard.description,
         'dashboard_type': dashboard_type,
         'embeded_url': new_dashboard.embeded_url,
         'report_url': new_dashboard.report_url,
@@ -122,10 +114,6 @@ def dataset_dashboard_update(context, data_dict):
     if not dashboard:
         raise toolkit.ObjectNotFound("Dashboard not found.")
 
-    if 'title' in data_dict:
-        dashboard.title = data_dict['title']
-    if 'description' in data_dict:
-        dashboard.description = data_dict['description']
     if 'dashboard_type' in data_dict:
         dashboard.dashboard_type = data_dict['dashboard_type']
     if 'embeded_url' in data_dict:
@@ -139,8 +127,6 @@ def dataset_dashboard_update(context, data_dict):
     return {
         'id': dashboard.id,
         'package_id': dashboard.package_id,
-        'title': dashboard.title,
-        'description': dashboard.description,
         'dashboard_type': dashboard.dashboard_type,
         'embeded_url': dashboard.embeded_url,
         'report_url': dashboard.report_url
