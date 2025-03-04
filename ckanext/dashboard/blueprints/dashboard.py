@@ -2,7 +2,6 @@ import logging
 from ckan import model
 import ckan.plugins as p
 from flask import Blueprint, request, redirect, url_for
-from ckan.logic import NotFound
 from ckan.plugins import toolkit
 from ckan.lib.helpers import helper_functions as h
 
@@ -72,16 +71,3 @@ def dashboard_delete(package_id, dashboard_id):
         h.flash_error(f'Error: {e}', 'error')
         log.error("Error deleting dashboard for dashboard_id %s: %s", dashboard_id, e)
     return redirect(url_for('dataset.read', id=package_id))
-
-
-@dashboard_bp.route('/show/<dashboard_id>', methods=['GET'], endpoint='dashboard_show')
-@require_sysadmin_user
-def dashboard_show(dashboard_id):
-    """Show the configuration of a dashboard using its unique ID"""
-    log.debug("Showing dashboard for dashboard_id: %s", dashboard_id)
-    context = {'model': model, 'user': p.toolkit.c.user}
-    try:
-        dashboard = p.toolkit.get_action('dataset_dashboard_show')(context, {'id': dashboard_id})
-    except NotFound:
-        dashboard = None
-    return toolkit.render('dashboard/show.html', extra_vars={'dashboard': dashboard, 'dashboard_id': dashboard_id})

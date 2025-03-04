@@ -1,34 +1,9 @@
 import logging
-import uuid
 from ckan.plugins import toolkit
 from ckan import model
 from ckanext.dashboard.models import DatasetDashboard
 
 log = logging.getLogger(__name__)
-
-
-@toolkit.side_effect_free
-def dataset_dashboard_list(context, data_dict):
-    """
-    Returns a list of dashboard configurations stored in the database.
-
-    This action is side_effect_free (has no side effects) and ensures
-    that the user has the necessary permissions to list dashboard configurations.
-    """
-    toolkit.check_access('dataset_dashboard_list', context, data_dict)
-
-    session = model.Session
-    dashboards = session.query(DatasetDashboard).all()
-    result = []
-    for dash in dashboards:
-        result.append({
-            'dashboard_id': dash.id,
-            'package_id': dash.package_id,
-            'embeded_url': dash.embeded_url,
-            'report_url': dash.report_url,
-        })
-    log.debug("Retrieved %d dashboard configurations", len(result))
-    return result
 
 
 @toolkit.side_effect_free
