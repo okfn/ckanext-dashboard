@@ -12,7 +12,6 @@
 <div class="container mt-4">
   <h1 class="mb-4">{{ _("Dashboard form") }}</h1>
 
-  <!-- Formulario para crear/actualizar -->
   <form method="post">
     <div class="mb-3">
       <label for="title" class="form-label">{{ _("* Title") }}</label>
@@ -49,16 +48,13 @@
     </div>
 
     {% if dashboard %}
-      <!-- Si existe el dashboard, el botón es de actualización -->
       <button type="submit" class="btn btn-primary">{{ _("Update") }}</button>
     {% else %}
-      <!-- Si no existe, el botón es de creación -->
       <button type="submit" class="btn btn-primary">{{ _("Create") }}</button>
     {% endif %}
   </form>
 
   {% if dashboard %}
-    <!-- Formulario separado para eliminar el dashboard -->
     <form action="{{ url_for('embeded_dashboard.dashboard_delete', package_id=pkg_dict['id'], dashboard_id=dashboard.id) }}"
           method="post"
           onsubmit="return confirm('¿Está seguro de que desea eliminar este dashboard?');"
