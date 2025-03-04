@@ -34,16 +34,17 @@
              {% if dashboard.report_url %}value="{{ dashboard.report_url }}"{% endif %}>
     </div>
 
-    {% if dashboard %}
-      <button type="submit" class="btn btn-primary">{{ _("Update") }}</button>
-    {% else %}
-      <button type="submit" class="btn btn-primary">{{ _("Create") }}</button>
-    {% endif %}
+    <div class="form-actions">
+      {% if dashboard %}
+        <button id="deleteButton" type="button" class="btn btn-danger" onclick="document.getElementById('deleteDialog').showModal()">{{_("Delete dashboard")}}</button>
+        <button type="submit" class="btn btn-primary">{{ _("Update") }}</button>
+      {% else %}
+        <button type="submit" class="btn btn-primary">{{ _("Create") }}</button>
+      {% endif %}
+    </div>
   </form>
 
   {% if dashboard %}
-    <button id="deleteButton" type="button" class="btn btn-danger" onclick="document.getElementById('deleteDialog').showModal()">{{_("Delete dashboard")}}</button>
-
     <dialog id="deleteDialog">
       <form method="dialog" action="{{ url_for('embeded_dashboard.dashboard_delete', package_id=pkg_dict['id'], dashboard_id=dashboard.id) }}">
         <h3>{{_("Are you sure you want to delete the dashboard?")}}</h3>
