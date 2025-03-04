@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-dashboard 0.0.1\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-03-03 17:57+0000\n"
+"POT-Creation-Date: 2025-03-04 19:17+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -26,77 +26,49 @@ msgstr "Editar Dashboard"
 msgid "New Dashboard"
 msgstr "Nuevo Dashboard"
 
-#: ckanext/dashboard/templates/dashboard/form.html:18
-msgid "* Title"
-msgstr "* Título"
+#: ckanext/dashboard/templates/dashboard/form.html:13
+msgid "Dashboard form"
+msgstr "Formulario"
 
-#: ckanext/dashboard/templates/dashboard/form.html:25
-msgid "Description"
-msgstr "Descripción"
-
-#: ckanext/dashboard/templates/dashboard/form.html:31
+#: ckanext/dashboard/templates/dashboard/form.html:17
 msgid "Type of Dashboard"
 msgstr "Tipo de Dashboard"
 
-#: ckanext/dashboard/templates/dashboard/form.html:38
+#: ckanext/dashboard/templates/dashboard/form.html:24
 msgid "* Embeded URL"
-msgstr "* URL embebida"
+msgstr "* URL Embebida"
 
-#: ckanext/dashboard/templates/dashboard/form.html:45
+#: ckanext/dashboard/templates/dashboard/form.html:31
 msgid "Report URL"
 msgstr "URL del Reporte"
 
-#: ckanext/dashboard/templates/dashboard/form.html:53
+#: ckanext/dashboard/templates/dashboard/form.html:39
+msgid "Delete dashboard"
+msgstr "Eliminar dashboard"
+
+#: ckanext/dashboard/templates/dashboard/form.html:40
 msgid "Update"
 msgstr "Actualizar"
 
-#: ckanext/dashboard/templates/dashboard/form.html:56
+#: ckanext/dashboard/templates/dashboard/form.html:42
 msgid "Create"
 msgstr "Crear"
 
-#: ckanext/dashboard/templates/dashboard/form.html:66
-msgid "Delete Dashboard"
-msgstr "Eliminar Dashboard"
+#: ckanext/dashboard/templates/dashboard/form.html:50
+msgid "Are you sure you want to delete the dashboard?"
+msgstr "¿Estás seguro que quieres eliminar el dashboard?"
 
-#: ckanext/dashboard/templates/dashboard/index.html:7
-msgid "Dashboard - List"
-msgstr "Lista de Dashboards"
+#: ckanext/dashboard/templates/dashboard/form.html:52
+msgid "No"
+msgstr "No"
 
-#: ckanext/dashboard/templates/dashboard/index.html:20
-msgid "No dashboards found."
-msgstr "No se encontraron dashboards."
-
-#: ckanext/dashboard/templates/dashboard/show.html:12
-msgid "Description:"
-msgstr "Descripción:"
-
-#: ckanext/dashboard/templates/dashboard/show.html:13
-msgid "Embedded URL:"
-msgstr "URL embebida:"
-
-#: ckanext/dashboard/templates/dashboard/show.html:20
-msgid "Report URL:"
-msgstr "URL del Reporte:"
-
-#: ckanext/dashboard/templates/dashboard/show.html:29
-msgid "Edit"
-msgstr "Editar"
-
-#: ckanext/dashboard/templates/dashboard/show.html:31
-msgid "Delete"
-msgstr "Eliminar"
-
-#: ckanext/dashboard/templates/dashboard/show.html:36
-msgid "Dashboard Not Found"
-msgstr "Dashboard No Encontrado"
-
-#: ckanext/dashboard/templates/dashboard/show.html:37
-msgid "The dashboard you're trying to view does not exist."
-msgstr "El dashboard que intentas ver no existe."
+#: ckanext/dashboard/templates/dashboard/form.html:53
+msgid "Yes"
+msgstr "Si"
 
 #: ckanext/dashboard/templates/dashboard/snippet.html:23
 msgid "Unsupported BI tool. Please contact the administrator."
-msgstr "Herramienta BI no soportada. Por favor, contacta al administrador."
+msgstr "Herramienta de BI no soportada. Por favor contacta el administrador."
 
 #: ckanext/dashboard/templates/dashboard/snippet.html:30
 msgid "View full report"
