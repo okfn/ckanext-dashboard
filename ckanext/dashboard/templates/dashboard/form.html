@@ -42,12 +42,17 @@
   </form>
 
   {% if dashboard %}
-    <form action="{{ url_for('embeded_dashboard.dashboard_delete', package_id=pkg_dict['id'], dashboard_id=dashboard.id) }}"
-          method="post"
-          onsubmit="return confirm('Are you sure you want to delete this Dashboard?');"
-          style="margin-top: 15px;">
-      <button type="submit" class="btn btn-danger">{{ _("Delete Dashboard") }}</button>
-    </form>
+    <button id="deleteButton" type="button" class="btn btn-danger" onclick="document.getElementById('deleteDialog').showModal()">{{_("Delete dashboard")}}</button>
+
+    <dialog id="deleteDialog">
+      <form method="dialog" action="{{ url_for('embeded_dashboard.dashboard_delete', package_id=pkg_dict['id'], dashboard_id=dashboard.id) }}">
+        <h3>{{_("Are you sure you want to delete the dashboard?")}}</h3>
+        <menu style="display: flex; justify-content: flex-end; gap: 30px; padding-left: 0px;">
+          <button class="btn btn-secondary" type="submit" formmethod="dialog">{{_("No")}}</button>
+          <button class="btn btn-danger" type="submit" formmethod="post">{{_("Yes")}}</button>
+        </menu>
+      </form>
+    </dialog>
   {% endif %}
 </div>
 {% endblock %}
