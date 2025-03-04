@@ -18,7 +18,7 @@ depends_on = None
 
 def upgrade():
     op.create_table(
-        'dashboard_package',
+        'dashboard_dashboard',
         sa.Column('id', sa.Integer, primary_key=True),
         sa.Column('package_id', postgresql.UUID(as_uuid=True), nullable=False, unique=True),
         sa.Column('dashboard_type', sa.String(length=20)),
@@ -28,4 +28,4 @@ def upgrade():
 
 
 def downgrade():
-    op.drop_table('dashboard_package')
+    op.drop_table('dashboard_dashboard')

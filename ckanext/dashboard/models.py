@@ -1,16 +1,13 @@
-from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, Integer, String
 
-from ckan.model.types import UuidType
 from ckan import model
+from ckan.model.types import UuidType
+from ckan.plugins import toolkit
 
 
-Base = declarative_base()
-
-
-class DatasetDashboard(Base):
+class DatasetDashboard(toolkit.BaseModel):
     """Data model for storing the configuration of a dashboard per dataset"""
-    __tablename__ = "dashboard_package"
+    __tablename__ = "dashboard_dashboard"
 
     id = Column(Integer, primary_key=True)
     package_id = Column(UuidType, nullable=False, unique=True)
