@@ -4,7 +4,7 @@
 
 {% block content %}
   <div class="dashboard-list-container">
-    <h1>📊 Dashboard - List</h1>
+    <h1>📊 {{ _("Dashboard - List") }}</h1>
     <a href="{{ url_for('embeded_dashboard.dashboard_new') }}">New</a> 
 
     {% if dashboards %}
@@ -17,7 +17,7 @@
         {% endfor %}
       </ul>
     {% else %}
-      <p class="no-dashboards">🚫 No dashboards found.</p>
+      <p class="no-dashboards">🚫 {{ _("No dashboards found.") }}</p>
     {% endif %}
   </div>
 {% endblock %}
