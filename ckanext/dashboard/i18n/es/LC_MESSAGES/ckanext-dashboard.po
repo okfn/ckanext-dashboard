@@ -1,0 +1,86 @@
+# Spanish translations for ckanext-dashboard.
+# Copyright (C) 2025 ORGANIZATION
+# This file is distributed under the same license as the ckanext-dashboard
+# project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2025.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: ckanext-dashboard 0.0.1\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2025-03-04 19:17+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: es\n"
+"Language-Team: es <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.15.0\n"
+
+#: ckanext/dashboard/templates/dashboard/form.html:5
+msgid "Edit Dashboard"
+msgstr "Editar Dashboard"
+
+#: ckanext/dashboard/templates/dashboard/form.html:7
+msgid "New Dashboard"
+msgstr "Nuevo Dashboard"
+
+#: ckanext/dashboard/templates/dashboard/form.html:13
+#, fuzzy
+#| msgid "Dashboard"
+msgid "Dashboard form"
+msgstr "Dashboard"
+
+#: ckanext/dashboard/templates/dashboard/form.html:17
+msgid "Type of Dashboard"
+msgstr "Tipo de Dashboard"
+
+#: ckanext/dashboard/templates/dashboard/form.html:24
+msgid "* Embeded URL"
+msgstr "* URL embebida"
+
+#: ckanext/dashboard/templates/dashboard/form.html:31
+msgid "Report URL"
+msgstr "URL del Reporte"
+
+#: ckanext/dashboard/templates/dashboard/form.html:39
+#, fuzzy
+#| msgid "Delete Dashboard"
+msgid "Delete dashboard"
+msgstr "Eliminar Dashboard"
+
+#: ckanext/dashboard/templates/dashboard/form.html:40
+msgid "Update"
+msgstr "Actualizar"
+
+#: ckanext/dashboard/templates/dashboard/form.html:42
+msgid "Create"
+msgstr "Crear"
+
+#: ckanext/dashboard/templates/dashboard/form.html:50
+msgid "Are you sure you want to delete the dashboard?"
+msgstr "¿Estás seguro que quieres eliminar el dashboard?"
+
+#: ckanext/dashboard/templates/dashboard/form.html:52
+msgid "No"
+msgstr "No"
+
+#: ckanext/dashboard/templates/dashboard/form.html:53
+msgid "Yes"
+msgstr "Si"
+
+#: ckanext/dashboard/templates/dashboard/snippet.html:23
+msgid "Unsupported BI tool. Please contact the administrator."
+msgstr "Herramienta BI no soportada. Por favor, contacta al administrador."
+
+#: ckanext/dashboard/templates/dashboard/snippet.html:30
+msgid "View full report"
+msgstr "Ver reporte completo"
+
+#: ckanext/dashboard/templates/package/read.html:7
+#: ckanext/dashboard/templates/package/read_base.html:6
+msgid "Dashboard"
+msgstr "Dashboard"

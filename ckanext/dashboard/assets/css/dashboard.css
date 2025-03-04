@@ -1,0 +1,32 @@
+.dashboard-list-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.dashboard-list {
+  list-style: none;
+  padding: 0;
+}
+
+.dashboard-item {
+  background-color: #f8f8f8;
+  padding: 15px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+}
+
+.dashboard-item a {
+  text-decoration: none;
+  color: #007bff;
+}
+
+.dashboard-item a:hover {
+  text-decoration: underline;
+}
+
+.no-dashboards {
+  text-align: center;
+  color: #888;
+  font-style: italic;
+}
