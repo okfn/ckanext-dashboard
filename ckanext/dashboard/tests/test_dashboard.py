@@ -17,7 +17,7 @@ def dashboard_test_data():
     return obj
 
 
-@pytest.mark.usefixtures("with_plugins", "clean_db")
+@pytest.mark.usefixtures('with_plugins', 'clean_db')
 class TestDashboard:
     """ Test dashboard functionality """
 
