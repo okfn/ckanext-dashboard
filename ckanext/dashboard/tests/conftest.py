@@ -1,8 +1,8 @@
-
 import pytest
 import ckan.tests.factories as factories
 import ckan.model as model
-from flask import Flask
+from ckan.tests.helpers import _get_test_app
+from ckanext.dashboard.models import DatasetDashboard
 
 
 @pytest.fixture
@@ -41,10 +41,17 @@ def test_resource(test_dataset):
 @pytest.fixture
 def app():
     """Return a WSGI app for testing Flask routes directly."""
-    # For integration tests, we use a mock app
-    flask_app = Flask('test_app')
-    # Return the Flask app directly so it can be used in app.app_context()
-    return flask_app
+    return _get_test_app()
+
+
+@pytest.fixture
+def initialize_dashboard_db():
+    """Create the dashboard table in the database."""
+    engine = model.meta.engine
+    DatasetDashboard.__table__.create(engine, checkfirst=True)
+    yield
+    DatasetDashboard.__table__.drop(engine, checkfirst=True)
+
 
 @pytest.fixture
 def create_test_data(clean_db):
@@ -62,3 +69,46 @@ def create_test_data(clean_db):
         'dataset': dataset,
         'resource': resource
     }
+
+
+@pytest.fixture
+def dashboard_test_data(clean_db, initialize_dashboard_db):
+    """Create test data specifically for dashboard tests."""
+    sysadmin = factories.Sysadmin()
+    sysadmin["headers"] = {"Authorization": sysadmin["apikey"]}
+
+    user = factories.User()
+    user["headers"] = {"Authorization": user["apikey"]}
+
+    org = factories.Organization(user=user)
+    dataset = factories.Dataset(user=user, owner_org=org["id"])
+
+    class TestData:
+        def __init__(self):
+            self.sysadmin = sysadmin
+            self.user = user
+            self.organization = org
+            self.dataset = dataset
+
+    return TestData()
+
+
+@pytest.fixture
+def dashboard_entry(clean_db, initialize_dashboard_db, dashboard_test_data):
+    """
+    Crea un dashboard para el dataset de prueba y lo devuelve.
+    Este dashboard se puede utilizar en los tests de actualización y eliminación.
+    """
+    from ckanext.dashboard.models import DatasetDashboard
+    dashboard = DatasetDashboard(
+        package_id=dashboard_test_data.dataset["id"],
+        dashboard_type="tableau",
+        embeded_url="https://example.com/dashboard/embed?id=12345",
+        report_url="https://example.com/dashboard/report?id=12345"
+    )
+    model.Session.add(dashboard)
+    model.Session.commit()
+    yield dashboard
+    # Limpieza: se elimina el dashboard creado
+    model.Session.delete(dashboard)
+    model.Session.commit()
