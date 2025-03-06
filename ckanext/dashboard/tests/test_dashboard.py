@@ -1,21 +1,5 @@
-from types import SimpleNamespace
 import pytest
 from ckan.lib.helpers import url_for
-from ckan.tests import factories
-
-
-@pytest.fixture
-def dashboard_test_data():
-    """Setup basic data needed for dashboard tests including:
-    - sysadmin user with token for admin operations
-    - regular user with token for permission testing
-    - dataset that will be used for dashboard attachment"""
-    obj = SimpleNamespace()
-    obj.sysadmin = factories.SysadminWithToken()
-    obj.user = factories.UserWithToken()
-    obj.dataset = factories.Dataset()
-    return obj
-
 
 @pytest.mark.usefixtures('with_plugins', 'clean_db')
 class TestDashboard:
@@ -152,14 +136,14 @@ class TestDashboard:
         # Then delete it
         delete_url = url_for("dataset_dashboard.delete", package_id=dashboard_test_data.dataset["id"])
         response = app.post(delete_url, extra_environ=auth)
-        
+
         # Check that the dashboard was deleted
         response = app.get(
             url_for("dataset.read", id=dashboard_test_data.dataset["name"]),
             extra_environ=auth,
         )
         assert "https://example.com/dashboard/embed?id=12345" not in response.body
-        
+
         # Verify dashboard form is empty
         response = app.get(url, extra_environ=auth)
         assert 'value="https://example.com/dashboard/embed?id=12345"' not in response.body
@@ -169,7 +153,7 @@ class TestDashboard:
         verifying that invalid URLs are properly rejected"""
         auth = {"Authorization": dashboard_test_data.sysadmin["token"]}
         url = url_for("dataset_dashboard.edit", package_id=dashboard_test_data.dataset["id"])
-        
+
         # Test with invalid URL
         response = app.post(
             url,
@@ -187,7 +171,7 @@ class TestDashboard:
         # This test assumes your extension supports multiple dashboards per dataset
         auth = {"Authorization": dashboard_test_data.sysadmin["token"]}
         url = url_for("dataset_dashboard.new", package_id=dashboard_test_data.dataset["id"])
-        
+
         # Add first dashboard
         response = app.post(
             url,
@@ -197,7 +181,7 @@ class TestDashboard:
             },
             extra_environ=auth
         )
-        
+
         # Add second dashboard
         response = app.post(
             url,
@@ -207,7 +191,7 @@ class TestDashboard:
             },
             extra_environ=auth
         )
-        
+
         # Check both dashboards appear
         response = app.get(
             url_for("dataset.read", id=dashboard_test_data.dataset["name"]),
