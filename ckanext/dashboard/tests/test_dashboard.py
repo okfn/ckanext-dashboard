@@ -4,6 +4,7 @@ import ckan.model as model
 from ckan.lib.helpers import url_for
 from ckan.tests import factories
 from ckanext.dashboard.models import DatasetDashboard
+from ckanext.dashboard.tests.factories import DashboardFactory
 
 
 @pytest.fixture
@@ -111,10 +112,14 @@ class TestDashboard:
         # Verify our dashboard is represented in the page (specifics depend on your template)
         assert "Dashboard" in response
 
-    def test_dashboard_can_be_updated(self, app, setup_data, dashboard_entry):
+    def test_dashboard_can_be_updated(self, app, setup_data):
         """Test that an existing dashboard can be successfully updated,
         verifying that the new information is displayed correctly"""
 
+        dashboard_entry = DashboardFactory(
+            package_id=setup_data.dataset["id"],
+            dashboard_type="tableau",
+        )
         # Update the dashboard using the correct package_id and sysadmin from setup_data
         app.post(
             url_for("embeded_dashboard.create", package_id=dashboard_entry.package_id),
@@ -137,9 +142,13 @@ class TestDashboard:
         assert dashboard.embeded_url == "https://example.com/dashboard/embed?id=67890"
         assert dashboard.dashboard_type == "powerbi"
 
-    def test_dashboard_can_be_deleted(self, app, setup_data, dashboard_entry):
+    def test_dashboard_can_be_deleted(self, app, setup_data):
         """Test that a dashboard can be successfully deleted,
         verifying that the dashboard no longer appears on the dataset page"""
+        dashboard_entry = DashboardFactory(
+            package_id=setup_data.dataset["id"],
+            dashboard_type="tableau",
+        )
         dashboard_id = dashboard_entry.id
         app.post(
             url_for(
