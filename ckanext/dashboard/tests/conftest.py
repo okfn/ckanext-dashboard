@@ -1,5 +1,4 @@
 import pytest
-import ckan.tests.factories as factories
 import ckan.model as model
 from ckanext.dashboard.models import DatasetDashboard
 
@@ -9,28 +8,6 @@ def clean_db(reset_db, migrate_db_for):
     """Clean and initialize the database."""
     reset_db()
     migrate_db_for("dashboard")
-
-
-@pytest.fixture
-def dashboard_test_data(clean_db):
-    """Create test data specifically for dashboard tests."""
-    sysadmin = factories.UserWithToken(sysadmin=True)
-    sysadmin["headers"] = {"Authorization": sysadmin["token"]}
-
-    user = factories.UserWithToken()
-    user["headers"] = {"Authorization": user["token"]}
-
-    org = factories.Organization(user=user)
-    dataset = factories.Dataset(user=user, owner_org=org["id"])
-
-    class TestData:
-        def __init__(self):
-            self.sysadmin = sysadmin
-            self.user = user
-            self.organization = org
-            self.dataset = dataset
-
-    return TestData()
 
 
 @pytest.fixture
