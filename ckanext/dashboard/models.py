@@ -12,8 +12,8 @@ class DatasetDashboard(toolkit.BaseModel):
     id = Column(Integer, primary_key=True)
     package_id = Column(UuidType, nullable=False, unique=True)
     dashboard_type = Column(String(20))
-    embeded_url = Column(String(200))
-    report_url = Column(String(200))
+    embeded_url = Column(String(2000))
+    report_url = Column(String(2000))
 
     def dictize(self):
         return {
