@@ -124,6 +124,8 @@ If ckanext-dashboard should be available on PyPI you can follow these steps to p
 
 ## 🛠️ Troubleshooting
 
+See [Troubleshooting procedure](/docs/Troubleshooting.md)
+
 ### 🧩 iframe overflow
 
 If the embedded iframe is too large and causes scroll bars to appear, this can be adjusted from the **display size settings** in **Tableau** or **Power BI**.
