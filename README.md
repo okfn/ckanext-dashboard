@@ -152,3 +152,43 @@ In **Tableau Desktop**: Right-hand menu > Dashboard > Size
 2. Then, define the **height/width values** if applicable
 
     ![image](https://github.com/user-attachments/assets/7d1d0003-4897-419b-981a-2ae8855fe96b)
+
+## 📊 Report Size in **Power BI**
+
+In Power BI, the report size affects how it appears on the **user's screen**, in **Power BI Service**, or when it is **embedded on a website**.
+
+---
+
+### 📏 Available Size Options:
+
+#### 🔹 Page Size
+
+Power BI allows you to set the **page size** from the canvas formatting section:
+
+- **16:9 (Widescreen)** *(default)*  
+- **4:3 (Standard screen)**  
+- **Cortado (Cropped view for mobile or specific visuals)**  
+- **Custom**: You can set the **width and height in pixels**, such as `1200 x 900 px`.
+
+#### 🔹 Responsive View
+- When embedded on the web or viewed in Power BI Service, the report can **automatically adjust** to the size of the container (responsive).
+- In **Power BI Embedded**, you can control the size using CSS and HTML containers.
+
+---
+
+### 🛠️ Where to configure it?
+
+In **Power BI Desktop**:  
+Visualizations > Click outside the canvas > Format panel (paintbrush icon) > Page Size
+
+1. Choose a type (16:9, 4:3, Cortado, Custom)  
+2. If custom, set width and height in pixels
+
+---
+
+### 💡 Helpful Tip:
+
+- For **mobile devices**, you can create a **specific mobile layout** from the menu:
+- View > View as > Mobile layout
+
+---
