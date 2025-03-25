@@ -22,8 +22,8 @@ def upgrade():
         sa.Column('id', sa.Integer, primary_key=True),
         sa.Column('package_id', postgresql.UUID(as_uuid=True), nullable=False, unique=True),
         sa.Column('dashboard_type', sa.String(length=20)),
-        sa.Column('embeded_url', sa.String(length=200)),
-        sa.Column('report_url', sa.String(length=200))
+        sa.Column('embeded_url', sa.String(length=2000)),
+        sa.Column('report_url', sa.String(length=2000))
     )
 
 
