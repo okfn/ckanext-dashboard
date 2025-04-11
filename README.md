@@ -121,3 +121,7 @@ If ckanext-dashboard should be available on PyPI you can follow these steps to p
 ## License
 
 [AGPL](https://www.gnu.org/licenses/agpl-3.0.en.html)
+
+## 🛠️ Troubleshooting
+
+See [Troubleshooting procedure](/docs/Troubleshooting.md)
