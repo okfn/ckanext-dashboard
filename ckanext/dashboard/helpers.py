@@ -11,4 +11,4 @@ def get_dataset_dashboard(package_id):
 
 def get_dashboard_title_from_config():
     """Obtiene el título del dashboard desde la configuración del .ini"""
-    return config.get('ckanext.bcie.dashboard_title', '')
+    return config.get('ckanext.dashboard.title', '')
