@@ -6,7 +6,7 @@ from ckanext.dashboard.actions.dashboard_dataset import (
     dataset_dashboard_show
 )
 from ckanext.dashboard.auth import dashboard_dataset as auth
-from ckanext.dashboard.helpers import get_dataset_dashboard
+import ckanext.dashboard.helpers as h
 from ckan.lib.plugins import DefaultTranslation
 
 
@@ -25,6 +25,10 @@ class DashboardPlugin(p.SingletonPlugin, DefaultTranslation):
         toolkit.add_template_directory(config_, "templates")
         toolkit.add_public_directory(config_, "public")
         toolkit.add_resource("assets", "dashboard")
+        # Opción para personalizar el título del dashboard
+        config_['ckanext.bcie.dashboard_title'] = config_.get(
+            'ckanext.bcie.dashboard_title', 'Tablero'
+        )
 
     def get_blueprint(self):
         return dashboard_bp
@@ -49,7 +53,10 @@ class DashboardPlugin(p.SingletonPlugin, DefaultTranslation):
         }
 
     def get_helpers(self):
-        return {'get_dataset_dashboard': get_dataset_dashboard}
+        return {
+        'get_dataset_dashboard': h.get_dataset_dashboard,
+        'get_dashboard_title_from_config': h.get_dashboard_title_from_config
+    }
 
     def i18n_locales(self):
         """Lanaguages this plugin has translations for."""
