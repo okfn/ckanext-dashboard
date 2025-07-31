@@ -25,7 +25,7 @@ class DashboardPlugin(p.SingletonPlugin, DefaultTranslation):
         toolkit.add_template_directory(config_, "templates")
         toolkit.add_public_directory(config_, "public")
         toolkit.add_resource("assets", "dashboard")
-        # Opción para personalizar el título del dashboard
+        # Option to customize the dashboard title
         config_['ckanext.bcie.dashboard_title'] = config_.get(
             'ckanext.bcie.dashboard_title', 'Tablero'
         )
@@ -59,7 +59,7 @@ class DashboardPlugin(p.SingletonPlugin, DefaultTranslation):
         }
 
     def i18n_locales(self):
-        """Lanaguages this plugin has translations for."""
+        """Languages this plugin has translations for."""
         # Return a list of languages that this plugin has translations for.
         return ["es", "en"]
 

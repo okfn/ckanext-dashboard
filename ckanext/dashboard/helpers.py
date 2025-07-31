@@ -1,8 +1,10 @@
+import logging
 from ckan import model
 from ckan.plugins import toolkit as t
 
-
 from ckanext.dashboard.models import DatasetDashboard
+
+log = logging.getLogger(__name__)
 
 
 def get_dataset_dashboard(package_id):
@@ -11,7 +13,7 @@ def get_dataset_dashboard(package_id):
 
 
 def get_dashboard_title_from_config():
-    """Obtiene el título del dashboard desde la configuración del .ini"""
+    """Gets the dashboard title from the .ini configuration"""
     try:
         result = t.get_action('config_option_show')(
             {'ignore_auth': True},
@@ -19,6 +21,6 @@ def get_dashboard_title_from_config():
         )
         if result and result.get('value'):
             return result['value']
-    except Exception:
-        pass
+    except (KeyError, AttributeError, t.ValidationError) as e:
+        log.error(f"Error retrieving dashboard title from config: {e}")
     return t.config.get('ckanext.bcie.dashboard_title', '')
