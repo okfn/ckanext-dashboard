@@ -54,9 +54,9 @@ class DashboardPlugin(p.SingletonPlugin, DefaultTranslation):
 
     def get_helpers(self):
         return {
-        'get_dataset_dashboard': h.get_dataset_dashboard,
-        'get_dashboard_title_from_config': h.get_dashboard_title_from_config
-    }
+            'get_dataset_dashboard': h.get_dataset_dashboard,
+            'get_dashboard_title_from_config': h.get_dashboard_title_from_config
+        }
 
     def i18n_locales(self):
         """Lanaguages this plugin has translations for."""
