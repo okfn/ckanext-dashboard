@@ -27,7 +27,7 @@ class DashboardPlugin(p.SingletonPlugin, DefaultTranslation):
         toolkit.add_resource("assets", "dashboard")
         # Option to customize the dashboard title
         config_['ckanext.bcie.dashboard_title'] = config_.get(
-            'ckanext.bcie.dashboard_title', 'Tablero'
+            'ckanext.bcie.dashboard_title', 'Dashboard'
         )
 
     def get_blueprint(self):
