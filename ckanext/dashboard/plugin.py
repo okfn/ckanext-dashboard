@@ -1,5 +1,6 @@
 from ckan import plugins as p
-from ckan.plugins import DefaultTranslation, toolkit
+from ckan.lib.plugins import DefaultTranslation
+from ckan.plugins import toolkit
 from ckanext.dashboard.blueprints.dashboard import dashboard_bp
 from ckanext.dashboard.actions.dashboard_dataset import (
     dataset_dashboard_create, dataset_dashboard_update, dataset_dashboard_delete,
