@@ -132,7 +132,6 @@ class TestDashboard:
         )
 
         # Verify the update by querying the database
-        from ckanext.dashboard.models import DatasetDashboard
         dashboard = model.Session.query(DatasetDashboard).filter_by(
             package_id=dashboard_entry.package_id
         ).first()
