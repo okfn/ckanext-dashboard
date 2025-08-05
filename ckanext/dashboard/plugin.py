@@ -1,13 +1,12 @@
-import ckan.plugins as p
-import ckan.plugins.toolkit as toolkit
+from ckan import plugins as p
+from ckan.plugins import DefaultTranslation, toolkit
 from ckanext.dashboard.blueprints.dashboard import dashboard_bp
 from ckanext.dashboard.actions.dashboard_dataset import (
     dataset_dashboard_create, dataset_dashboard_update, dataset_dashboard_delete,
     dataset_dashboard_show
 )
 from ckanext.dashboard.auth import dashboard_dataset as auth
-import ckanext.dashboard.helpers as h
-from ckan.lib.plugins import DefaultTranslation
+from ckanext.dashboard import helpers as h
 
 
 class DashboardPlugin(p.SingletonPlugin, DefaultTranslation):

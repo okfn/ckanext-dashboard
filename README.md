@@ -144,7 +144,7 @@ To customize the title:
 
 ```ini
 ckanext.bcie.dashboard_title = Project Monitoring
-````
+```
 
 To hide the title completely:
 
