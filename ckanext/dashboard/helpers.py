@@ -14,8 +14,4 @@ def get_dataset_dashboard(package_id):
 
 def get_dashboard_title_from_config():
     """Gets the dashboard title from the .ini configuration"""
-    try:
-        return t.config.get('ckanext.bcie.dashboard_title', '')
-    except Exception as e:
-        log.error(f"Error retrieving dashboard title from config: {e}")
-        return ''
+    return t.config.get('ckanext.bcie.dashboard_title', 'Dashboard')

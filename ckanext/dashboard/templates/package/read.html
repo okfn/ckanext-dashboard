@@ -9,9 +9,6 @@
     {% if dashboard_title %}
       <h3>{{ dashboard_title }}</h3>
     {% endif %}
-    {% if dashboard.description %}
-      <p>{{ dashboard.description }}</p>
-    {% endif %}
     {% snippet "dashboard/snippet.html", dashboard=dashboard %}
   {% endif %}
 {% endblock %}

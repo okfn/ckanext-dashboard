@@ -25,10 +25,6 @@ class DashboardPlugin(p.SingletonPlugin, DefaultTranslation):
         toolkit.add_template_directory(config_, "templates")
         toolkit.add_public_directory(config_, "public")
         toolkit.add_resource("assets", "dashboard")
-        # Option to customize the dashboard title
-        config_['ckanext.bcie.dashboard_title'] = config_.get(
-            'ckanext.bcie.dashboard_title', 'Dashboard'
-        )
 
     def get_blueprint(self):
         return dashboard_bp
