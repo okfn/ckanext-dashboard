@@ -1,13 +1,13 @@
-import ckan.plugins as p
-import ckan.plugins.toolkit as toolkit
+from ckan import plugins as p
+from ckan.lib.plugins import DefaultTranslation
+from ckan.plugins import toolkit
 from ckanext.dashboard.blueprints.dashboard import dashboard_bp
 from ckanext.dashboard.actions.dashboard_dataset import (
     dataset_dashboard_create, dataset_dashboard_update, dataset_dashboard_delete,
     dataset_dashboard_show
 )
 from ckanext.dashboard.auth import dashboard_dataset as auth
-from ckanext.dashboard.helpers import get_dataset_dashboard
-from ckan.lib.plugins import DefaultTranslation
+from ckanext.dashboard import helpers as h
 
 
 class DashboardPlugin(p.SingletonPlugin, DefaultTranslation):
@@ -49,10 +49,13 @@ class DashboardPlugin(p.SingletonPlugin, DefaultTranslation):
         }
 
     def get_helpers(self):
-        return {'get_dataset_dashboard': get_dataset_dashboard}
+        return {
+            'get_dataset_dashboard': h.get_dataset_dashboard,
+            'get_dashboard_title_from_config': h.get_dashboard_title_from_config
+        }
 
     def i18n_locales(self):
-        """Lanaguages this plugin has translations for."""
+        """Languages this plugin has translations for."""
         # Return a list of languages that this plugin has translations for.
         return ["es", "en"]
 

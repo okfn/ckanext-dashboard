@@ -125,3 +125,31 @@ If ckanext-dashboard should be available on PyPI you can follow these steps to p
 ## 🛠️ Troubleshooting
 
 See [Troubleshooting procedure](/docs/Troubleshooting.md)
+
+
+## Configuration
+
+This extension allows customization of the dashboard title displayed on dataset pages.
+
+### `ckanext.bcie.dashboard_title`
+
+- **Type:** `string`
+- **Default:** `"Dashboard"`
+- **Description:** Sets the title that appears above the embedded dashboard in the dataset detail page.
+- **Usage:** You can change this setting in the CKAN configuration file (`.ini`), or leave it blank to hide the title entirely.
+
+#### Example
+
+To customize the title:
+
+```ini
+ckanext.bcie.dashboard_title = Project Monitoring
+```
+
+To hide the title completely:
+
+```ini
+ckanext.bcie.dashboard_title = 
+```
+
+> Note: This setting is read directly from the CKAN configuration file. If you wish to expose it in the sysadmin UI (`/admin/config`), you will need to register a config validator in the plugin.

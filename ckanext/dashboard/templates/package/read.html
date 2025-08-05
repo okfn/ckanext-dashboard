@@ -1,11 +1,14 @@
 {% ckan_extends %}
 
 {% block package_description %}
-  {{ super() }}
+ {{ super() }}
+
   {% set dashboard = h.get_dataset_dashboard(pkg_dict.id) %}
   {% if dashboard and dashboard.embeded_url %}
-    <h3>{{ _("Dashboard") }}</h3>
-    <p>{{ dashboard.description }}</p>
+    {% set dashboard_title = h.get_dashboard_title_from_config() %}
+    {% if dashboard_title %}
+      <h3 class="dashboard-title-class">{{ dashboard_title }}</h3>
+    {% endif %}
     {% snippet "dashboard/snippet.html", dashboard=dashboard %}
   {% endif %}
 {% endblock %}
