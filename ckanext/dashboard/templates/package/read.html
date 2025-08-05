@@ -7,7 +7,7 @@
   {% if dashboard and dashboard.embeded_url %}
     {% set dashboard_title = h.get_dashboard_title_from_config() %}
     {% if dashboard_title %}
-      <h3>{{ dashboard_title }}</h3>
+      <h3 class="dashboard-title-class">{{ dashboard_title }}</h3>
     {% endif %}
     {% snippet "dashboard/snippet.html", dashboard=dashboard %}
   {% endif %}
