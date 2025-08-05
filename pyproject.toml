@@ -1,7 +1,7 @@
 [project]
 name = "ckanext-dashboard"
-version = "0.0.1"
-description = "]: El objetivo de la extensión sería que, por cada dataset, el sysadmin pueda embeber dicho reporte en la página del dataset."
+version = "0.1.2"
+description = "Allow embedding external visualizations from Tableau or PowerBI."
 readme = "README.md"
 authors = [
     {name = "okfn", email = "info@okfn.com"}
