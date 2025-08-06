@@ -9,7 +9,7 @@
     {{ form.input(
         'ckanext.dashboard.title',
         label=_('Dashboard Title'),
-        value=data.get('ckanext.dashboard.title') or h.get_dashboard_title_from_config()
+        value=data.get('ckanext.dashboard.title') or h.get_dashboard_title_from_config(),
         error=errors['ckanext.dashboard.title']
     ) }}
   </div>
