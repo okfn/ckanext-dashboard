@@ -1,3 +1,5 @@
+import logging
+
 from ckan import plugins as p
 from ckan.lib.plugins import DefaultTranslation
 from ckan.plugins import toolkit
@@ -8,6 +10,9 @@ from ckanext.dashboard.actions.dashboard_dataset import (
 )
 from ckanext.dashboard.auth import dashboard_dataset as auth
 from ckanext.dashboard import helpers as h
+
+
+log = logging.getLogger(__name__)
 
 
 class DashboardPlugin(p.SingletonPlugin, DefaultTranslation):
@@ -26,9 +31,12 @@ class DashboardPlugin(p.SingletonPlugin, DefaultTranslation):
         toolkit.add_public_directory(config_, "public")
         toolkit.add_resource("assets", "dashboard")
 
+        title_config = config_.get("ckanext.dashboard_title", config_.get("ckanext.bcie.dashboard_title", ""))
+        log.debug(f"Setting default dashboard title: {title_config}")
+
         config_.setdefault(
             "ckanext.dashboard.title",
-            config_.get("ckanext.dashboard_title", config_.get("ckanext.bcie.dashboard_title", "Dashboard"))
+            title_config
         )
 
     def get_blueprint(self):
