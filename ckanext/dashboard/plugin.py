@@ -26,7 +26,10 @@ class DashboardPlugin(p.SingletonPlugin, DefaultTranslation):
         toolkit.add_public_directory(config_, "public")
         toolkit.add_resource("assets", "dashboard")
 
-        config_["ckanext.dashboard.title"] = config_.get("ckanext.bcie.dashboard_title", "Dashboard")
+        config_.setdefault(
+            "ckanext.dashboard.title",
+            config_.get("ckanext.dashboard_title", config_.get("ckanext.bcie.dashboard_title", "Dashboard"))
+        )
 
     def get_blueprint(self):
         return dashboard_bp
