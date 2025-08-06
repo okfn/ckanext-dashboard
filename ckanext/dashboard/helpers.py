@@ -15,6 +15,6 @@ def get_dataset_dashboard(package_id):
 def get_dashboard_title_from_config():
     """Gets the dashboard title from the .ini configuration"""
     # If exists and it's empty, we assume users wants not to display the title
-    title = t.config.get('ckanext.bcie.dashboard_title', t._('Dashboard'))
+    title = t.config.get('ckanext.dashboard.title', t._('Dashboard'))
 
     return title
