@@ -61,7 +61,8 @@ class TestDashboard:
             params={
                 "embeded_url": dashboard_url,
                 "report_url": "https://example.com/dashboard/report?id=12345",
-                "dashboard_type": "tableau"
+                "dashboard_type": "tableau",
+                "report_title": "My Dashboard Report title",
             },
             headers=setup_data.sysadmin["headers"],
             follow_redirects=True
@@ -69,6 +70,8 @@ class TestDashboard:
 
         # The dashboard URL should be in the response after creation
         assert "Dashboard" in response
+        assert dashboard_url in response
+        assert "My Dashboard Report title" in response
 
     def test_normal_user_cannot_add_dashboard(self, app, setup_data):
         """Test that regular users cannot see or access dashboard functionality,
@@ -98,7 +101,8 @@ class TestDashboard:
                 "embeded_url": "https://example.com/dashboard/embed?id=12345",
                 "report_url": "https://example.com/dashboard/report?id=12345",
                 "description": "Dashboard description",
-                "dashboard_type": "tableau"
+                "dashboard_type": "tableau",
+                "report_title": "",  # must show the default value "View full report"
             },
             headers=setup_data.sysadmin["headers"],
         )
@@ -111,6 +115,7 @@ class TestDashboard:
 
         # Verify our dashboard is represented in the page (specifics depend on your template)
         assert "Dashboard" in response
+        assert "View full report" in response
 
     def test_dashboard_can_be_updated(self, app, setup_data):
         """Test that an existing dashboard can be successfully updated,
@@ -126,7 +131,8 @@ class TestDashboard:
             params={
                 "embeded_url": "https://example.com/dashboard/embed?id=67890",
                 "report_url": "https://example.com/dashboard/report?id=12345",
-                "dashboard_type": "powerbi"
+                "dashboard_type": "powerbi",
+                "report_title": "Updated Report Title",
             },
             headers=setup_data.sysadmin["headers"],
         )
@@ -140,6 +146,7 @@ class TestDashboard:
         assert dashboard is not None
         assert dashboard.embeded_url == "https://example.com/dashboard/embed?id=67890"
         assert dashboard.dashboard_type == "powerbi"
+        assert dashboard.report_title == "Updated Report Title"
 
     def test_dashboard_can_be_deleted(self, app, setup_data):
         """Test that a dashboard can be successfully deleted,

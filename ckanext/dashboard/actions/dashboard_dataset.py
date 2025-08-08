@@ -29,7 +29,9 @@ def dataset_dashboard_show(context, data_dict):
         'id': dashboard.id,
         'package_id': dashboard.package_id,
         'embeded_url': dashboard.embeded_url,
-        'report_url': dashboard.report_url
+        'report_url': dashboard.report_url,
+        'dashboard_type': dashboard.dashboard_type,
+        'report_title': dashboard.report_title or 'View full report',
     }
 
 
@@ -56,6 +58,7 @@ def dataset_dashboard_create(context, data_dict):
         dashboard_type=dashboard_type,
         embeded_url=data_dict.get('embeded_url', ''),
         report_url=data_dict.get('report_url', ''),
+        report_title=data_dict.get('report_title', 'View full report'),
     )
 
     session = model.Session
@@ -68,6 +71,7 @@ def dataset_dashboard_create(context, data_dict):
         'dashboard_type': dashboard_type,
         'embeded_url': new_dashboard.embeded_url,
         'report_url': new_dashboard.report_url,
+        'report_title': new_dashboard.report_title
     }
 
 
@@ -95,6 +99,8 @@ def dataset_dashboard_update(context, data_dict):
         dashboard.embeded_url = data_dict['embeded_url']
     if 'report_url' in data_dict:
         dashboard.report_url = data_dict['report_url']
+    if 'report_title' in data_dict:
+        dashboard.report_title = data_dict['report_title'] or 'View full report'
 
     session.add(dashboard)
     session.commit()
@@ -104,7 +110,8 @@ def dataset_dashboard_update(context, data_dict):
         'package_id': dashboard.package_id,
         'dashboard_type': dashboard.dashboard_type,
         'embeded_url': dashboard.embeded_url,
-        'report_url': dashboard.report_url
+        'report_url': dashboard.report_url,
+        'report_title': dashboard.report_title or 'View full report',
     }
 
 

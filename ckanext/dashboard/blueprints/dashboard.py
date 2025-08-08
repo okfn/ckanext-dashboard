@@ -38,7 +38,8 @@ def dashboard_create(package_id):
             'description': request.form.get('description'),
             'dashboard_type': request.form.get('dashboard_type', 'tableau'),
             'embeded_url': request.form.get('embeded_url'),
-            'report_url': request.form.get('report_url')
+            'report_url': request.form.get('report_url'),
+            'report_title': request.form.get('report_title', 'View full report'),
         }
         context = {'model': model, 'user': p.toolkit.c.user}
         try:
