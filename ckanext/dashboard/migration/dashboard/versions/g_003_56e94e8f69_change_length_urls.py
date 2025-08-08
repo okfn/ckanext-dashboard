@@ -1,6 +1,6 @@
 """Add secondary button fields
 
-Revision ID: f156e94e8f68
+Revision ID: f156e94e8f69
 Revises: f156e94e8f68
 Create Date: 2025-08-07 12:00:00.000000
 
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'f156e94e8f68'
+revision = 'f156e94e8f69'
 down_revision = 'f156e94e8f68'
 branch_labels = None
 depends_on = None
