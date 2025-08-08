@@ -12,6 +12,7 @@ class DashboardFactory(factory.Factory):
     dashboard_type = factory.Iterator(['tableau', 'powerbi'])
     embeded_url = factory.Sequence(lambda n: "https://embed.com/embed-{0:05d}.html".format(n))
     report_url = factory.Sequence(lambda n: "https://report.com/embed-{0:05d}.html".format(n))
+    report_title = 'View full report'
 
     @classmethod
     def _create(cls, target_class, *args, **kwargs):
