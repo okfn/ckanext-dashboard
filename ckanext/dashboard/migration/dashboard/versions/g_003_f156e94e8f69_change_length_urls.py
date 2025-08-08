@@ -1,4 +1,4 @@
-"""Add secondary button fields
+"""Add report_title field
 
 Revision ID: f156e94e8f69
 Revises: f156e94e8f68
