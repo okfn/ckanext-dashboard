@@ -17,22 +17,13 @@ depends_on = None
 
 
 def upgrade():
-    # Add secondary_button_url column
-    op.add_column(
-        'dashboard_dashboard',
-        sa.Column('secondary_button_url', sa.String(length=2000), nullable=True)
-    )
 
-    # Add secondary_button_title column
+    # Add report_title column
     op.add_column(
-        'dashboard_dashboard',
-        sa.Column('secondary_button_title', sa.String(length=200), nullable=True)
+        'dashboard_dashboard', sa.Column('report_title', sa.String(length=200), nullable=True)
     )
 
 
 def downgrade():
-    # Remove secondary_button_title column
-    op.drop_column('dashboard_dashboard', 'secondary_button_title')
-
-    # Remove secondary_button_url column
-    op.drop_column('dashboard_dashboard', 'secondary_button_url')
+    # Remove report_title column
+    op.drop_column('dashboard_dashboard', 'report_title')

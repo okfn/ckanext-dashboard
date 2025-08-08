@@ -27,6 +27,12 @@
 <!-- Report link if available -->
 {% if dashboard.report_url %}
   <div style="text-align:right; margin-top:10px;">
-    <a href="{{ dashboard.report_url }}" target="_blank">{{ _("View full report") }}</a>
+    <a href="{{ dashboard.report_url }}" target="_blank">
+      {% if dashboard.report_title %}
+        {{ dashboard.report_title }}
+      {% else %}
+        {{ _("View full report") }}
+      {% endif %}
+    </a>
   </div>
 {% endif %}

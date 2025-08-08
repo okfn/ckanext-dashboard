@@ -28,6 +28,13 @@
              required>
     </div>
     <div class="mb-3">
+      <label for="report_title" class="form-label">{{ _("Report Title") }}</label>
+      <input type="text" name="report_title" id="report_title" class="form-control"
+             placeholder="Default value is View full report"
+             {% if dashboard.report_title %}value="{{ dashboard.report_title }}"{% endif %}>
+    </div>
+
+    <div class="mb-3">
       <label for="report_url" class="form-label">{{ _("Report URL") }}</label>
       <input type="url" name="report_url" id="report_url" class="form-control"
              placeholder="Enter report URL"
