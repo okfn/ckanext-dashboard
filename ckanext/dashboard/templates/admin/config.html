@@ -1,0 +1,16 @@
+{% ckan_extends %}
+{% import 'macros/form.html' as form %}
+
+{% block admin_form %}
+  {{ super() }}
+
+  <h2>{{ _('Dashboard Configuration') }}</h2>
+  <div class="group-fields">
+    {{ form.input(
+        'ckanext.dashboard.title',
+        label=_('Dashboard Title'),
+        value=data.get('ckanext.dashboard.title') or h.get_dashboard_title_from_config(),
+        error=errors['ckanext.dashboard.title']
+    ) }}
+  </div>
+{% endblock %}

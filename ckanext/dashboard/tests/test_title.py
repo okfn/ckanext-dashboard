@@ -21,15 +21,20 @@ def setup_data():
 class TestTitle:
     """ Test the dashboard title """
 
-    @pytest.mark.ckan_config("ckanext.bcie.dashboard_title", "My dash title")
+    @pytest.mark.ckan_config("ckanext.dashboard.title", "My dash title")
     def test_title_exists(self, app, setup_data):
         headers = {'Authorization': setup_data.user['token']}
         response = app.get(url_for("dataset.read", id=setup_data.dataset["name"]), headers=headers)
         assert "dashboard-title-class" in response
         assert 'My dash title' in response
+        html = response.data.decode('utf-8')
+        assert "dashboard-title-class" in html
+        assert "My dash title" in html
 
-    @pytest.mark.ckan_config("ckanext.bcie.dashboard_title", "")
+    @pytest.mark.ckan_config("ckanext.dashboard.title", "")
     def test_empty_title(self, app, setup_data):
         headers = {'Authorization': setup_data.user['token']}
         response = app.get(url_for("dataset.read", id=setup_data.dataset["name"]), headers=headers)
         assert "dashboard-title-class" not in response
+        html = response.data.decode('utf-8')
+        assert "dashboard-title-class" not in html

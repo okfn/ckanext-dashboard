@@ -131,7 +131,7 @@ See [Troubleshooting procedure](/docs/Troubleshooting.md)
 
 This extension allows customization of the dashboard title displayed on dataset pages.
 
-### `ckanext.bcie.dashboard_title`
+### `ckanext.dashboard.title`
 
 - **Type:** `string`
 - **Default:** `"Dashboard"`
@@ -143,13 +143,13 @@ This extension allows customization of the dashboard title displayed on dataset 
 To customize the title:
 
 ```ini
-ckanext.bcie.dashboard_title = Project Monitoring
+ckanext.dashboard.title = Project Monitoring
 ```
 
 To hide the title completely:
 
 ```ini
-ckanext.bcie.dashboard_title = 
+ckanext.dashboard.title = 
 ```
 
 > Note: This setting is read directly from the CKAN configuration file. If you wish to expose it in the sysadmin UI (`/admin/config`), you will need to register a config validator in the plugin.
