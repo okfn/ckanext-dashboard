@@ -14,10 +14,19 @@ log = logging.getLogger(__name__)
 dashboard_bp = Blueprint('embeded_dashboard', __name__)
 
 
+def _must_edit_pkg_or_403(package_id):
+    context = {'model': model, 'user': toolkit.c.user}
+    try:
+        toolkit.check_access('package_update', context, {'id': package_id})
+    except toolkit.NotAuthorized:
+        # Devolver una respuesta HTTP 403 Forbidden
+        toolkit.abort(403, 'Not authorized to edit this dataset')
+
+
 @dashboard_bp.route('/dataset/dashboard/<package_id>', methods=['GET', 'POST'], endpoint='create')
-@require_sysadmin_user
 def dashboard_create(package_id):
     """Create a new dashboard (view and logic for creation)"""
+    _must_edit_pkg_or_403(package_id)
     log.debug("Creating a new dashboard")
     try:
         pkg_dict = toolkit.get_action('package_show')({}, {'id': package_id})
@@ -42,6 +51,7 @@ def dashboard_create(package_id):
             'report_title': request.form.get('report_title', 'View full report'),
         }
         context = {'model': model, 'user': p.toolkit.c.user}
+        toolkit.check_access('package_update', context, {'id': package_id})
         try:
             if not dashboard_dict:
                 p.toolkit.get_action('dataset_dashboard_create')(context, data)
