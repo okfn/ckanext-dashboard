@@ -73,19 +73,25 @@ class TestDashboard:
         assert dashboard_url in response
         assert "My Dashboard Report title" in response
 
-    def test_normal_user_cannot_add_dashboard(self, app, setup_data):
-        """Test that regular users cannot see or access dashboard functionality,
-        verifying proper access control is in place"""
-        # Normal users should not see dashboard icon
+    def test_user_without_edit_cannot_add_dashboard(self, app, setup_data):
+        """
+        With the new policy, only users with package_update permission can use the dashboard.
+        A user without edit permissions should not see the tab or be able to access it.
+        """
+        # Dataset from another organization (setup_data.user is NOT a member)
+        other_org = factories.Organization()
+        other_dataset = factories.Dataset(owner_org=other_org["id"])
+
+        # Should not see the dashboard icon/tab
         response = app.get(
-            url_for("dataset.read", id=setup_data.dataset["name"]),
+            url_for("dataset.read", id=other_dataset["name"]),
             headers=setup_data.user["headers"]
         )
-        assert f'href="/dataset/dashboard/{setup_data.dataset["id"]}"' not in response
+        assert f'href="/dataset/dashboard/{other_dataset["id"]}"' not in response
 
-        # If they try to access, it should return 403
+        # If trying to access directly, should get 403
         response = app.get(
-            url_for("embeded_dashboard.create", package_id=setup_data.dataset["id"]),
+            url_for("embeded_dashboard.create", package_id=other_dataset["id"]),
             headers=setup_data.user["headers"],
             status=403
         )
