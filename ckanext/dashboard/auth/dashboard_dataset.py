@@ -29,5 +29,5 @@ def dashboard_dataset_delete(context, data_dict):
 
 
 def dashboard_dataset_show(context, data_dict):
-    # Viewing the dashboard doesn't require editor permissions (adjust if needed)
+    """ Viewing the dashboard doesn't require editor permissions (adjust if needed) """
     return {"success": True}
