@@ -51,7 +51,6 @@ def dashboard_create(package_id):
             'report_title': request.form.get('report_title', 'View full report'),
         }
         context = {'model': model, 'user': p.toolkit.c.user}
-        toolkit.check_access('package_update', context, {'id': package_id})
         try:
             if not dashboard_dict:
                 p.toolkit.get_action('dataset_dashboard_create')(context, data)
