@@ -19,7 +19,7 @@ def _must_edit_pkg_or_403(package_id):
     try:
         toolkit.check_access('package_update', context, {'id': package_id})
     except toolkit.NotAuthorized:
-        # Devolver una respuesta HTTP 403 Forbidden
+        # Return HTTP 403 Forbidden response
         toolkit.abort(403, 'Not authorized to edit this dataset')
 
 
