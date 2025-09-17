@@ -51,9 +51,8 @@ def dataset_dashboard_create(context, data_dict):
     t.check_access('dataset_dashboard_create', context, data_dict)
 
     # Validate required fields
-    package_id, dashboard_type = t.get_or_bust(
-            data_dict, ['package_id', 'dashboard_type']
-            )
+    package_id = t.get_or_bust(data_dict, 'package_id')
+    dashboard_type = t.get_or_bust(data_dict, 'dashboard_type')
 
     new_dashboard = DatasetDashboard(
         package_id=package_id,
