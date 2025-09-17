@@ -6,7 +6,12 @@ from ckan.plugins import toolkit
 
 
 def _pkg_id_from(data_dict):
-    return data_dict.get('id') or data_dict.get('package_id') or data_dict.get('pkg_id')
+    """Gets the package_id without querying the DB."""
+    return (
+        data_dict.get('package_id') or
+        data_dict.get('pkg_id') or
+        data_dict.get('id')
+    )
 
 
 def _can_edit_pkg(context, data_dict):
@@ -21,7 +26,7 @@ def _can_edit_pkg(context, data_dict):
 
 
 def _can_view_pkg(context, data_dict):
-    """Permite si el usuario puede hacer package_show sobre el dataset."""
+    """Allows if the user can perform package_show on the dataset."""
     pkg_id = _pkg_id_from(data_dict)
     if not pkg_id:
         return {"success": False}

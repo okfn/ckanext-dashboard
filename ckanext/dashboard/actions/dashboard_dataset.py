@@ -126,7 +126,6 @@ def dataset_dashboard_delete(context, data_dict):
     :return: Dictionary confirming the deletion.
     """
     log.info("Executing dataset_dashboard_delete")
-    t.check_access('dataset_dashboard_delete', context, data_dict)
 
     dashboard_id = t.get_or_bust(data_dict, 'id')
 
@@ -135,6 +134,11 @@ def dataset_dashboard_delete(context, data_dict):
 
     if not dashboard:
         raise ValueError("Dashboard not found.")
+
+    # Authorize using the package_id from the loaded dashboard
+    auth_data = dict(data_dict)
+    auth_data['package_id'] = dashboard.package_id
+    t.check_access('dataset_dashboard_delete', context, auth_data)
 
     session.delete(dashboard)
     session.commit()
