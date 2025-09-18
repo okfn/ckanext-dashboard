@@ -19,14 +19,30 @@ def setup_data():
 @pytest.mark.usefixtures('with_plugins', 'clean_db')
 class TestDashboardActions:
 
-    def test_show_not_found(self, setup_data):
-        """Tests that dashboard is not found."""
+    def test_show_not_found_raises_object_not_found(self, setup_data):
+        """
+        dataset_dashboard_show should raise ObjectNotFound if there is no dashboard
+        for the specified pkg_id.
+        """
         ctx = {"user": setup_data["sysadmin"]["name"]}
-        with pytest.raises(ValueError, match="Dashboard not found"):
+        with pytest.raises(t.ObjectNotFound, match=r"Dashboard not found\.?"):
             helpers.call_action(
                 "dataset_dashboard_show",
                 context=ctx,
                 pkg_id=setup_data["dataset"]["id"],
+            )
+
+    def test_delete_not_found_raises_object_not_found(self, setup_data):
+        """
+        dataset_dashboard_delete should raise ObjectNotFound if the id does not exist.
+        """
+        ctx = {"user": setup_data["sysadmin"]["name"]}
+        # id inexistente
+        with pytest.raises(t.ObjectNotFound, match=r"Dashboard not found\.?"):
+            helpers.call_action(
+                "dataset_dashboard_delete",
+                context=ctx,
+                id=999999,
             )
 
     def test_show_success(self, setup_data):

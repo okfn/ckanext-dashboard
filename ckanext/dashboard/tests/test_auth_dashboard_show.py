@@ -7,11 +7,13 @@ from ckan.tests import factories, helpers
 class TestDashboardDatasetShowAuth:
     def test_public_dataset_is_viewable_by_anonymous(self):
         """Anyone can view the dashboard of a public dataset."""
-        org = factories.Organization()
-        ds = factories.Dataset(owner_org=org["id"], private=False)
-
+        ds = factories.Dataset(private=False)
         context = {"user": ""}  # anonymous
-        assert toolkit.check_access("dataset_dashboard_show", context, {"id": ds["id"]}) is True
+        assert toolkit.check_access(
+            "dataset_dashboard_show",
+            context,
+            {"pkg_id": ds["id"]},
+        )
 
     def test_private_dataset_denied_to_anonymous(self):
         """Anonymous users cannot view the dashboard of a private dataset."""
@@ -20,7 +22,11 @@ class TestDashboardDatasetShowAuth:
 
         context = {"user": ""}  # anonymous
         with pytest.raises(toolkit.NotAuthorized):
-            toolkit.check_access("dataset_dashboard_show", context, {"id": ds["id"]})
+            toolkit.check_access(
+                "dataset_dashboard_show",
+                context,
+                {"pkg_id": ds["id"]},
+            )
 
     def test_private_dataset_denied_to_non_member_user(self):
         """A non-member user cannot view the dashboard of a private dataset."""

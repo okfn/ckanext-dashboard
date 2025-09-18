@@ -9,10 +9,10 @@ log = logging.getLogger(__name__)
 @t.side_effect_free
 def dataset_dashboard_show(context, data_dict):
     """
-    Returns details of a specific dashboard.
+    Returns details of a specific dashboard for the given dataset (by pkg_id).
 
     :param context: Dictionary with action context information.
-    :param data_dict: Dictionary with input data, must include the dashboard ID.
+    :param data_dict: Dictionary with input data, must include 'pkg_id'.
     :return: Dictionary with dashboard details.
     """
     log.info("Executing dataset_dashboard_show")
@@ -24,7 +24,7 @@ def dataset_dashboard_show(context, data_dict):
     dashboard = session.query(DatasetDashboard).filter_by(package_id=pkg_id).first()
 
     if not dashboard:
-        raise ValueError("Dashboard not found.")
+        raise t.ObjectNotFound("Dashboard not found.")
 
     return {
         'id': dashboard.id,
@@ -127,13 +127,13 @@ def dataset_dashboard_delete(context, data_dict):
     """
     log.info("Executing dataset_dashboard_delete")
 
-    dashboard_id = t.get_or_bust(data_dict, 'id')
+    dashboard_id = data_dict['id']
 
     session = model.Session
     dashboard = session.query(DatasetDashboard).filter_by(id=dashboard_id).first()
 
     if not dashboard:
-        raise ValueError("Dashboard not found.")
+        raise t.ObjectNotFound("Dashboard not found.")
 
     # Authorize using the package_id from the loaded dashboard
     auth_data = dict(data_dict)
