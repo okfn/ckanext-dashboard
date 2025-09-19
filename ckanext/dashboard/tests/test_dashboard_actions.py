@@ -37,7 +37,7 @@ class TestDashboardActions:
         dataset_dashboard_delete should raise ObjectNotFound if the id does not exist.
         """
         ctx = {"user": setup_data["sysadmin"]["name"]}
-        # id inexistente
+        # non-existent id
         with pytest.raises(t.ObjectNotFound, match=r"Dashboard not found\.?"):
             helpers.call_action(
                 "dataset_dashboard_delete",
