@@ -2,6 +2,7 @@ import pytest
 from ckan.plugins import toolkit as t
 from ckan import model
 from ckan.tests import helpers, factories
+from ckanext.dashboard.tests.factories import DashboardFactory
 from ckanext.dashboard.models import DatasetDashboard
 
 
@@ -49,7 +50,7 @@ class TestDashboardActions:
         """Tests that dashboard is shown correctly."""
         # Create one directly in DB to test show
         session = model.Session
-        dash = DatasetDashboard(
+        dash = DashboardFactory(
             package_id=setup_data["dataset"]["id"],
             dashboard_type="tableau",
             embeded_url="https://embed.example/d/1",
@@ -79,7 +80,7 @@ class TestDashboardActions:
         # Re-create a private dataset and a dashboard for that dataset
         private_ds = factories.Dataset(user=setup_data["sysadmin"], owner_org=setup_data["org"]["id"], private=True)
         session = model.Session
-        dash = DatasetDashboard(
+        dash = DashboardFactory(
             package_id=private_ds["id"],
             dashboard_type="superset",
         )
@@ -142,7 +143,7 @@ class TestDashboardActions:
         """Tests that edit permission is required to update dashboard."""
         # Seed
         session = model.Session
-        dash = DatasetDashboard(
+        dash = DashboardFactory(
             package_id=setup_data["dataset"]["id"],
             dashboard_type="tableau",
         )
@@ -162,7 +163,7 @@ class TestDashboardActions:
         """Tests successful dashboard update by sysadmin."""
         # Seed
         session = model.Session
-        dash = DatasetDashboard(
+        dash = DashboardFactory(
             package_id=setup_data["dataset"]["id"],
             dashboard_type="tableau",
             embeded_url="https://old/embed",
@@ -215,7 +216,7 @@ class TestDashboardActions:
         """Tests that edit permission is required to delete dashboard."""
         # Seed
         session = model.Session
-        dash = DatasetDashboard(
+        dash = DashboardFactory(
             package_id=setup_data["dataset"]["id"],
             dashboard_type="tableau",
         )
@@ -234,7 +235,7 @@ class TestDashboardActions:
         """Tests successful dashboard deletion by sysadmin."""
         # Seed
         session = model.Session
-        dash = DatasetDashboard(
+        dash = DashboardFactory(
             package_id=setup_data["dataset"]["id"],
             dashboard_type="tableau",
         )

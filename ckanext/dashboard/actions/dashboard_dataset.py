@@ -137,9 +137,8 @@ def dataset_dashboard_delete(context, data_dict):
         raise t.ObjectNotFound("Dashboard not found.")
 
     # Authorize using the package_id from the loaded dashboard
-    auth_data = dict(data_dict)
-    auth_data['package_id'] = dashboard.package_id
-    t.check_access('dataset_dashboard_delete', context, auth_data)
+    data_dict['package_id'] = dashboard.package_id
+    t.check_access('dataset_dashboard_delete', context, data_dict)
 
     session.delete(dashboard)
     session.commit()
