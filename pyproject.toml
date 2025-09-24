@@ -1,6 +1,6 @@
 [project]
 name = "ckanext-dashboard"
-version = "0.1.2"
+version = "0.1.4"
 description = "Allow embedding external visualizations from Tableau or PowerBI."
 readme = "README.md"
 authors = [
