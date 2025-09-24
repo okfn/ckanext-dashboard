@@ -1,12 +1,12 @@
 import logging
-from ckan.plugins import toolkit as t
+from ckan.plugins import toolkit
 from ckan import model
 from ckanext.dashboard.models import DatasetDashboard
 
 log = logging.getLogger(__name__)
 
 
-@t.side_effect_free
+@toolkit.side_effect_free
 def dataset_dashboard_show(context, data_dict):
     """
     Returns details of a specific dashboard for the given dataset (by pkg_id).
@@ -16,15 +16,15 @@ def dataset_dashboard_show(context, data_dict):
     :return: Dictionary with dashboard details.
     """
     log.info("Executing dataset_dashboard_show")
-    t.check_access('dataset_dashboard_show', context, data_dict)
+    toolkit.check_access('dataset_dashboard_show', context, data_dict)
 
-    pkg_id = t.get_or_bust(data_dict, 'pkg_id')
+    pkg_id = toolkit.get_or_bust(data_dict, 'pkg_id')
 
     session = model.Session
     dashboard = session.query(DatasetDashboard).filter_by(package_id=pkg_id).first()
 
     if not dashboard:
-        raise t.ObjectNotFound("Dashboard not found.")
+        raise toolkit.ObjectNotFound("Dashboard not found.")
 
     return {
         'id': dashboard.id,
@@ -48,10 +48,10 @@ def dataset_dashboard_create(context, data_dict):
     :return: Dictionary with the details of the newly created dashboard.
     """
     log.info("Executing dataset_dashboard_create")
-    t.check_access('dataset_dashboard_create', context, data_dict)
+    toolkit.check_access('dataset_dashboard_create', context, data_dict)
 
     # Validate required fields
-    package_id, dashboard_type = t.get_or_bust(
+    package_id, dashboard_type = toolkit.get_or_bust(
         data_dict, ['package_id', 'dashboard_type']
     )
 
@@ -86,15 +86,15 @@ def dataset_dashboard_update(context, data_dict):
     :return: Dictionary with the updated dashboard details.
     """
     log.info("Executing dataset_dashboard_update")
-    t.check_access('dataset_dashboard_update', context, data_dict)
+    toolkit.check_access('dataset_dashboard_update', context, data_dict)
 
-    package_id = t.get_or_bust(data_dict, 'package_id')
+    package_id = toolkit.get_or_bust(data_dict, 'package_id')
 
     session = model.Session
     dashboard = session.query(DatasetDashboard).filter_by(package_id=package_id).first()
 
     if not dashboard:
-        raise t.ObjectNotFound("Dashboard not found.")
+        raise toolkit.ObjectNotFound("Dashboard not found.")
 
     if 'dashboard_type' in data_dict:
         dashboard.dashboard_type = data_dict['dashboard_type']
@@ -134,7 +134,7 @@ def dataset_dashboard_delete(context, data_dict):
     dashboard = session.query(DatasetDashboard).filter_by(id=dashboard_id).first()
 
     if not dashboard:
-        raise t.ObjectNotFound("Dashboard not found.")
+        raise toolkit.ObjectNotFound("Dashboard not found.")
 
     # Authorize using the package_id from the loaded dashboard
     data_dict['package_id'] = dashboard.package_id
