@@ -9,13 +9,14 @@ log = logging.getLogger(__name__)
 @toolkit.side_effect_free
 def dataset_dashboard_show(context, data_dict):
     """
-    Returns details of a specific dashboard.
+    Returns details of a specific dashboard for the given dataset (by pkg_id).
 
     :param context: Dictionary with action context information.
-    :param data_dict: Dictionary with input data, must include the dashboard ID.
+    :param data_dict: Dictionary with input data, must include 'pkg_id'.
     :return: Dictionary with dashboard details.
     """
     log.info("Executing dataset_dashboard_show")
+    toolkit.check_access('dataset_dashboard_show', context, data_dict)
 
     pkg_id = toolkit.get_or_bust(data_dict, 'pkg_id')
 
@@ -23,7 +24,7 @@ def dataset_dashboard_show(context, data_dict):
     dashboard = session.query(DatasetDashboard).filter_by(package_id=pkg_id).first()
 
     if not dashboard:
-        raise ValueError("Dashboard not found.")
+        raise toolkit.ObjectNotFound("Dashboard not found.")
 
     return {
         'id': dashboard.id,
@@ -47,11 +48,12 @@ def dataset_dashboard_create(context, data_dict):
     :return: Dictionary with the details of the newly created dashboard.
     """
     log.info("Executing dataset_dashboard_create")
+    toolkit.check_access('dataset_dashboard_create', context, data_dict)
 
     # Validate required fields
     package_id, dashboard_type = toolkit.get_or_bust(
-            data_dict, ['package_id', 'dashboard_type']
-            )
+        data_dict, ['package_id', 'dashboard_type']
+    )
 
     new_dashboard = DatasetDashboard(
         package_id=package_id,
@@ -84,6 +86,7 @@ def dataset_dashboard_update(context, data_dict):
     :return: Dictionary with the updated dashboard details.
     """
     log.info("Executing dataset_dashboard_update")
+    toolkit.check_access('dataset_dashboard_update', context, data_dict)
 
     package_id = toolkit.get_or_bust(data_dict, 'package_id')
 
@@ -125,13 +128,17 @@ def dataset_dashboard_delete(context, data_dict):
     """
     log.info("Executing dataset_dashboard_delete")
 
-    dashboard_id = toolkit.get_or_bust(data_dict, 'id')
+    dashboard_id = data_dict['id']
 
     session = model.Session
     dashboard = session.query(DatasetDashboard).filter_by(id=dashboard_id).first()
 
     if not dashboard:
-        raise ValueError("Dashboard not found.")
+        raise toolkit.ObjectNotFound("Dashboard not found.")
+
+    # Authorize using the package_id from the loaded dashboard
+    data_dict['package_id'] = dashboard.package_id
+    toolkit.check_access('dataset_dashboard_delete', context, data_dict)
 
     session.delete(dashboard)
     session.commit()

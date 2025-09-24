@@ -2,7 +2,7 @@
 
 {% block content_primary_nav %}
   {{ super() }}
-  {% if h.check_access("dataset_dashboard_create", {}) %}
+  {% if h.check_access('dataset_dashboard_create', {'package_id': pkg.id}) %}
     {{ h.build_nav_icon("embeded_dashboard.create", _("Dashboard"),  package_id=pkg.id, icon="chart-column") }}
   {% endif %}
 {% endblock %}
