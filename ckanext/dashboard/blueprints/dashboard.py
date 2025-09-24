@@ -26,7 +26,11 @@ def dashboard_create(package_id):
     except toolkit.NotAuthorized:
         toolkit.abort(403, 'Not authorized to view this dataset')
 
-    dashboard_dict = toolkit.get_action('dataset_dashboard_show')({}, {'pkg_id': package_id})
+    try:
+        dashboard_dict = toolkit.get_action('dataset_dashboard_show')({}, {'pkg_id': package_id})
+    except toolkit.ObjectNotFound:
+        # There is no existing dashboard, which is fine for creation
+        dashboard_dict = {}
 
     if request.method == 'POST':
         data = {
@@ -41,7 +45,7 @@ def dashboard_create(package_id):
         context = {'model': model, 'user': p.toolkit.c.user}
         action = 'dataset_dashboard_create' if not dashboard_dict else 'dataset_dashboard_update'
         try:
-            p.toolkit.get_action(action)(context, data)
+            dashboard_dict = p.toolkit.get_action(action)(context, data)
         except toolkit.NotAuthorized:
             toolkit.abort(403, 'Not authorized to create/update this dashboard')
 
