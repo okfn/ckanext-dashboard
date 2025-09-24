@@ -138,7 +138,7 @@ def dataset_dashboard_delete(context, data_dict):
 
     # Authorize using the package_id from the loaded dashboard
     data_dict['package_id'] = dashboard.package_id
-    t.check_access('dataset_dashboard_delete', context, data_dict)
+    toolkit.check_access('dataset_dashboard_delete', context, data_dict)
 
     session.delete(dashboard)
     session.commit()
