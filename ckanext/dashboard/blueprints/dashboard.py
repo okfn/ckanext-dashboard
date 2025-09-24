@@ -34,11 +34,12 @@ def dashboard_create(package_id):
         h.flash_error('El dataset no existe.', 'error')
         return redirect(url_for('package.read', id=package_id))
 
-    # Se capturan ambos tipos de excepciones: ObjectNotFound y ValueError
     try:
         dashboard_dict = toolkit.get_action('dataset_dashboard_show')({}, {'pkg_id': package_id})
-    except (toolkit.ObjectNotFound, ValueError):
-        dashboard_dict = {}
+    except toolkit.ObjectNotFound:
+        toolkit.abort(404, 'Dashboard not found')
+    except toolkit.NotAuthorized:
+        toolkit.abort(403, 'Not authorized to view this dashboard')
 
     if request.method == 'POST':
         data = {
