@@ -18,6 +18,11 @@ dashboard_bp = Blueprint('embeded_dashboard', __name__)
 def dashboard_create(package_id):
     """Create a new dashboard (view and logic for creation)"""
 
+    try:
+        toolkit.check_access('dashboard_dataset_create', {'user': p.toolkit.c.user}, {'package_id': package_id})
+    except toolkit.NotAuthorized:
+        toolkit.abort(403, 'Not authorized to create a dashboard for this dataset')
+
     log.debug("Creating a new dashboard")
     try:
         pkg_dict = toolkit.get_action('package_show')({}, {'id': package_id})
