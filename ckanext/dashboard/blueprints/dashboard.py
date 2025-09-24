@@ -19,7 +19,7 @@ def dashboard_create(package_id):
     """Create a new dashboard (view and logic for creation)"""
 
     try:
-        toolkit.check_access('dashboard_dataset_create', {'user': p.toolkit.c.user}, {'package_id': package_id})
+        toolkit.check_access('dataset_dashboard_create', {'user': p.toolkit.c.user}, {'package_id': package_id})
     except toolkit.NotAuthorized:
         toolkit.abort(403, 'Not authorized to create a dashboard for this dataset')
 
