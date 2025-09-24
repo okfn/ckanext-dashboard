@@ -14,32 +14,19 @@ log = logging.getLogger(__name__)
 dashboard_bp = Blueprint('embeded_dashboard', __name__)
 
 
-def _must_edit_pkg_or_403(package_id):
-    context = {'model': model, 'user': toolkit.c.user}
-    try:
-        toolkit.check_access('package_update', context, {'id': package_id})
-    except toolkit.NotAuthorized:
-        # Return HTTP 403 Forbidden response
-        toolkit.abort(403, 'Not authorized to edit this dataset')
-
-
 @dashboard_bp.route('/dataset/dashboard/<package_id>', methods=['GET', 'POST'], endpoint='create')
 def dashboard_create(package_id):
     """Create a new dashboard (view and logic for creation)"""
-    _must_edit_pkg_or_403(package_id)
+
     log.debug("Creating a new dashboard")
     try:
         pkg_dict = toolkit.get_action('package_show')({}, {'id': package_id})
     except toolkit.ObjectNotFound:
-        h.flash_error('El dataset no existe.', 'error')
-        return redirect(url_for('package.read', id=package_id))
-
-    try:
-        dashboard_dict = toolkit.get_action('dataset_dashboard_show')({}, {'pkg_id': package_id})
-    except toolkit.ObjectNotFound:
-        toolkit.abort(404, 'Dashboard not found')
+        toolkit.abort(404, 'Dataset not found')
     except toolkit.NotAuthorized:
-        toolkit.abort(403, 'Not authorized to view this dashboard')
+        toolkit.abort(403, 'Not authorized to view this dataset')
+
+    dashboard_dict = toolkit.get_action('dataset_dashboard_show')({}, {'pkg_id': package_id})
 
     if request.method == 'POST':
         data = {
@@ -52,18 +39,15 @@ def dashboard_create(package_id):
             'report_title': request.form.get('report_title', 'View full report'),
         }
         context = {'model': model, 'user': p.toolkit.c.user}
+        action = 'dataset_dashboard_create' if not dashboard_dict else 'dataset_dashboard_update'
         try:
-            if not dashboard_dict:
-                p.toolkit.get_action('dataset_dashboard_create')(context, data)
-                h.flash_success('Dashboard created successfully', 'success')
-                log.info("Dashboard created")
-            else:
-                toolkit.get_action('dataset_dashboard_update')(context, data)
-                h.flash_success('Dashboard updated successfully', 'success')
-                log.info("Dashboard updated")
-        except Exception as e:
-            h.flash_error(f'Error: {e}', 'error')
-            log.error("Error creating dashboard: %s", e)
+            p.toolkit.get_action(action)(context, data)
+        except toolkit.NotAuthorized:
+            toolkit.abort(403, 'Not authorized to create/update this dashboard')
+
+        h.flash_success(f'Dashboard {action.split("_")[-1]}d successfully', 'success')
+        log.info(f"Dashboard {action.split('_')[-1]}d")
+
         return redirect(url_for('dataset.read', id=pkg_dict['id']))
     return toolkit.render('dashboard/form.html', {"pkg_dict": pkg_dict, "dashboard": dashboard_dict})
 
