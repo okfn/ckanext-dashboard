@@ -150,6 +150,12 @@ To run the tests, do:
 pytest --ckan-ini=test.ini
 ```
 
+To run tests with coverage:
+
+```bash
+pytest --ckan-ini=test.ini --cov=ckanext.dashboard --disable-warnings ckanext/dashboard
+```
+
 
 ## Releasing a new version of ckanext-dashboard
 
@@ -191,4 +197,7 @@ If ckanext-dashboard should be available on PyPI you can follow these steps to p
 
 ## Troubleshooting
 
-See [Troubleshooting procedure](/docs/Troubleshooting.md)
+See [Troubleshooting procedure](/docs/Troubleshooting.md) for common issues including:
+- iframe overflow problems
+- Report sizing in Power BI
+- Embedding configuration for Tableau
