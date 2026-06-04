@@ -7,7 +7,7 @@ A CKAN extension that allows embedding external dashboards and visualizations fr
 
 - **Embed Interactive Dashboards**: Display Tableau, PowerBI, or other BI tool visualizations within dataset pages
 - **Link to Full Reports**: Add optional links to the complete dashboard/report
-- **Admin Controlled**: Only sysadmins can create, edit, and delete dashboard configurations
+- **Permission-Based Access Control**: Users with edit permissions on a dataset (editors, org admins, sysadmins) can create, edit, and delete its dashboard configuration
 - **Internationalized**: Built-in support for English and Spanish
 - **Customizable Titles**: Configure or hide dashboard section titles via configuration
 - **Multiple Dashboard Types**: Support for various BI platforms (Tableau, PowerBI)
@@ -86,7 +86,7 @@ ckanext.dashboard.title =
 
 ### Creating a Dashboard for a Dataset
 
-1. Navigate to a dataset page as a sysadmin user
+1. Navigate to a dataset page as a user with edit permissions on the dataset
 2. Click on the "Dashboard" tab or navigate to `/dataset/dashboard/{package_id}`
 3. Fill in the form:
    - **Dashboard Type**: Select the type of dashboard (e.g., `tableau`, `powerbi`)
@@ -112,9 +112,9 @@ The extension provides the following API actions:
 ```python
 import ckan.plugins.toolkit as toolkit
 
-# Show dashboard for a dataset
+# Show dashboard for a dataset (requires pkg_id)
 dashboard = toolkit.get_action('dataset_dashboard_show')(
-    context, 
+    context,
     {'pkg_id': 'my-dataset-id'}
 )
 
@@ -128,6 +128,22 @@ new_dashboard = toolkit.get_action('dataset_dashboard_create')(
         'report_url': 'https://tableau.example.com/full-report',
         'report_title': 'View Full Report'
     }
+)
+
+# Update a dashboard
+toolkit.get_action('dataset_dashboard_update')(
+    context,
+    {
+        'package_id': 'my-dataset-id',
+        'embeded_url': 'https://tableau.example.com/embed/updated...',
+        'report_title': 'Updated Report'
+    }
+)
+
+# Delete a dashboard (requires the dashboard id, not the package id)
+toolkit.get_action('dataset_dashboard_delete')(
+    context,
+    {'id': 'dashboard-uuid'}
 )
 ```
 
