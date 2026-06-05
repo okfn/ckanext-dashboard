@@ -21,7 +21,7 @@ Compatibility with core CKAN versions:
 | 2.6 and earlier | not tested    |
 | 2.7             | not tested    |
 | 2.8             | not tested    |
-| 2.9             | yes           |
+| 2.9             | not tested    |
 | 2.10            | yes           |
 | 2.11            | yes           |
 
@@ -171,41 +171,6 @@ To run tests with coverage:
 ```bash
 pytest --ckan-ini=test.ini --cov=ckanext.dashboard --disable-warnings ckanext/dashboard
 ```
-
-
-## Releasing a new version of ckanext-dashboard
-
-If ckanext-dashboard should be available on PyPI you can follow these steps to publish a new version:
-
-1. Update the version number in the `pyproject.toml` file. See [PEP 440](http://legacy.python.org/dev/peps/pep-0440/#public-version-identifiers) for how to choose version numbers.
-
-2. Make sure you have the latest version of necessary packages:
-   ```bash
-   pip install --upgrade setuptools wheel twine
-   ```
-
-3. Create a source and binary distributions of the new version:
-   ```bash
-   python -m build && twine check dist/*
-   ```
-   Fix any errors you get.
-
-4. Upload the source distribution to PyPI:
-   ```bash
-   twine upload dist/*
-   ```
-
-5. Commit any outstanding changes:
-   ```bash
-   git commit -a
-   git push
-   ```
-
-6. Tag the new release of the project on GitHub with the version number from the `pyproject.toml` file. For example if the version number in `pyproject.toml` is 0.1.4 then do:
-   ```bash
-   git tag 0.1.4
-   git push --tags
-   ```
 
 ## License
 
