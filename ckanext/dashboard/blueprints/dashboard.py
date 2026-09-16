@@ -19,7 +19,11 @@ def dashboard_create(package_id):
     """Create a new dashboard (view and logic for creation)"""
 
     try:
-        toolkit.check_access('dataset_dashboard_create', {'user': p.toolkit.c.user}, {'package_id': package_id})
+        toolkit.check_access(
+            'dataset_dashboard_create',
+            {'user': toolkit.current_user.name},
+            {'package_id': package_id},
+        )
     except toolkit.NotAuthorized:
         toolkit.abort(403, 'Not authorized to create a dashboard for this dataset')
 
@@ -47,7 +51,7 @@ def dashboard_create(package_id):
             'report_url': request.form.get('report_url'),
             'report_title': request.form.get('report_title', 'View full report'),
         }
-        context = {'model': model, 'user': p.toolkit.c.user}
+        context = {'model': model, 'user': toolkit.current_user.name}
         action = 'dataset_dashboard_create' if not dashboard_dict else 'dataset_dashboard_update'
         try:
             dashboard_dict = p.toolkit.get_action(action)(context, data)
@@ -66,7 +70,7 @@ def dashboard_create(package_id):
 def dashboard_delete(package_id, dashboard_id):
     """Delete the configuration of a dashboard using its unique ID"""
     log.debug("Deleting dashboard for dashboard_id: %s", dashboard_id)
-    context = {'model': model, 'user': p.toolkit.c.user}
+    context = {'model': model, 'user': toolkit.current_user.name}
     try:
         p.toolkit.get_action('dataset_dashboard_delete')(context, {'id': dashboard_id})
         h.flash_success('Dashboard configuration deleted', 'success')

@@ -13,6 +13,7 @@
   <h1 class="mb-4">{{ _("Dashboard form") }}</h1>
 
   <form method="post">
+    {{ h.csrf_input() }}
     <div class="mb-3">
       <label for="dashboard_type" class="form-label">{{ _("Type of Dashboard") }}</label>
       <select name="dashboard_type" id="dashboard_type" class="form-control">
@@ -54,6 +55,7 @@
   {% if dashboard %}
     <dialog id="deleteDialog">
       <form method="dialog" action="{{ url_for('embeded_dashboard.dashboard_delete', package_id=pkg_dict['id'], dashboard_id=dashboard.id) }}">
+        {{ h.csrf_input() }}
         <h3>{{_("Are you sure you want to delete the dashboard?")}}</h3>
         <menu style="display: flex; justify-content: flex-end; gap: 30px; padding-left: 0px;">
           <button class="btn btn-secondary" type="submit" formmethod="dialog">{{_("No")}}</button>

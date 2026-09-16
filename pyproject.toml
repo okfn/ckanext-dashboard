@@ -1,6 +1,6 @@
 [project]
 name = "ckanext-dashboard"
-version = "0.1.4"
+version = "0.1.5"
 description = "Allow embedding external visualizations from Tableau or PowerBI."
 readme = "README.md"
 authors = [
@@ -13,6 +13,7 @@ classifiers = [
     "Programming Language :: Python :: 3.8",
     "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
 ]
 
 keywords = [ "CKAN", "dashboard", "BCIE", "BI", ]
