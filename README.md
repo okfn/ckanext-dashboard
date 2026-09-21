@@ -26,7 +26,7 @@ Compatibility with core CKAN versions:
 | 2.11            | yes           |
 | 2.12            | yes           |
 
-**Python compatibility**: 3.8, 3.9, 3.10, 3.11
+**Python compatibility**: 3.10, 3.11, 3.12
 
 
 ## Installation
