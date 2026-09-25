@@ -1,6 +1,7 @@
 import logging
 
 from ckan import plugins as p
+from ckan.config.declaration import Declaration, Key
 from ckan.lib.plugins import DefaultTranslation
 from ckan.plugins import toolkit
 from ckanext.dashboard.blueprints.dashboard import dashboard_bp
@@ -23,6 +24,7 @@ class DashboardPlugin(p.SingletonPlugin, DefaultTranslation):
     p.implements(p.ITemplateHelpers)
     p.implements(p.IAuthFunctions)
     p.implements(p.ITranslation)
+    p.implements(p.IConfigDeclaration)
 
     # IConfigurer
 
@@ -37,6 +39,14 @@ class DashboardPlugin(p.SingletonPlugin, DefaultTranslation):
         config_.setdefault(
             "ckanext.dashboard.title",
             title_config
+        )
+
+    def declare_config_options(self, declaration: Declaration, key: Key):
+        declaration.annotate("ckanext-dashboard settings")
+        declaration.declare(
+            key.ckanext.dashboard.title, "Dashboard"
+        ).set_description(
+            "Title displayed above the embedded dataset dashboard"
         )
 
     def get_blueprint(self):
