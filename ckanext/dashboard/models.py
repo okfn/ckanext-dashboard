@@ -1,7 +1,6 @@
-from sqlalchemy import Column, Integer, String
+from sqlalchemy import Column, Integer, String, UnicodeText
 
 from ckan import model
-from ckan.model.types import UuidType
 from ckan.plugins import toolkit
 
 
@@ -10,7 +9,7 @@ class DatasetDashboard(toolkit.BaseModel):
     __tablename__ = "dashboard_dashboard"
 
     id = Column(Integer, primary_key=True)
-    package_id = Column(UuidType, nullable=False, unique=True)
+    package_id = Column(UnicodeText, nullable=False, unique=True)
     dashboard_type = Column(String(20))
     embeded_url = Column(String(2000))
     report_url = Column(String(2000))

@@ -59,6 +59,14 @@ To install ckanext-dashboard:
    ```
 
 
+## Upgrading
+
+After updating the extension, run `ckan db upgrade -p dashboard` before
+restarting CKAN. Revision `f156e94e8f70` converts existing dashboard package
+identifiers from PostgreSQL UUID to text, matching CKAN's package identifiers
+while preserving values and the NOT NULL and UNIQUE constraints.
+Downgrading this revision requires all package identifiers to be valid UUIDs.
+
 ## Config settings
 
 ### `ckanext.dashboard.title`
